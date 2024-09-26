@@ -1,0 +1,31 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Coverage directory used by testing tools like Jest
+coverage/
+
+# Production build directory
+dist/
+
+# Debugging related files
+.vscode/
+.idea/
+
+# macOS specific
+.DS_Store
