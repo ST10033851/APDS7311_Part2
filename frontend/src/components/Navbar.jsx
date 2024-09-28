@@ -7,19 +7,24 @@ import { close, menu, logo } from '../assets'
 function Navbar() {
   const [toggle, setToggle] = useState(false)
   return (
-    <nav className="w-full flex py-6 justify-between items-center navbar">
+    <nav className="w-full flex py-6 justify-between items-center navbar z-[30]">
       <img src={logo} alt = "name" className='w-[160px] h-[160px]'/>
       <ul className="list-none sm:flex hidden justify-end item-center flex-1">
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
           <Link to="/">Home</Link>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <Link to="/login">Login</Link>
+          <a href="/login">Login</a>
         </li>
-        <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-0`}>
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
           <Link to="/register">Register</Link>
         </li>
-        {/* You can put you crud operation links here for transactions */}
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+          <Link to="/create">Create</Link>
+        </li>
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-0`}>
+          <Link to="/read">Read</Link>
+        </li>
       </ul>
       
       <div className='sm:hidden flex flex-1 justify-end items-center'>
@@ -34,10 +39,16 @@ function Navbar() {
             <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-4`}>
               <Link to="/login">Login</Link>
             </li>
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-4`}>
               <Link to="/register">Register</Link>
             </li>
-          {/* You can put you crud operation links here for transactions */}
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-4`}>
+              <Link to="/create">Create</Link>
+            </li>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
+              <Link to="/read">Read</Link>
+            </li>
+          
         </ul>
         </div>
       </div>

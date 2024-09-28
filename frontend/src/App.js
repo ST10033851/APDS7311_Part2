@@ -7,13 +7,15 @@ import Login from './components/auth/Login';
 import styles from './style';
 import Hero from './components/Hero'
 import About from './components/About'
+import Create from './components/CRUD/Create';
+import Read from './components/CRUD/Read';
 
 function App() {
   return (
     <Router>
       <div className='bg-primary w-full overflow-hidden'>
-        <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-          <div className='xl:max-w-[1280px] w-full'>
+        <div className={`${styles.paddingX} ${styles.flexCenter} z-[30]`}>
+          <div className='xl:max-w-[1280px] w-full z-[30]'>
             <Navbar />
           </div>
         </div>
@@ -32,6 +34,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path='/create' element={<Create />}></Route>
+          <Route path='/read' element={<Read />}></Route>
         </Routes>
       </div>
     </Router>
