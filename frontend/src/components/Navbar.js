@@ -16,6 +16,12 @@ function Navbar() {
         <li>
           <Link to="/register">Register</Link>
         </li>
+        <li>
+          <Link to="/create">Create</Link>
+        </li>
+        <li>
+          <Link to="/read">Read</Link>
+        </li>
         {/* You can put you crud operation links here for transactions */}
       </ul>
     </nav>

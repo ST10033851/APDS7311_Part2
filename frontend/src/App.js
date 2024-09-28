@@ -5,6 +5,8 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Create from './components/CRUD/Create';
+import Read from './components/CRUD/Read';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path='/create' element={<Create />}></Route>
+          <Route path='/read' element={<Read />}></Route>
         </Routes>
       </div>
     </Router>
