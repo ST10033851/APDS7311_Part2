@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -20,22 +19,26 @@ function App() {
           </div>
         </div>
 
-        <div className='bg-primary flex justify-center items-start'>
-          <div className='xl:max-w-[1280px] w-full'>
-            <Hero />
-          </div>
-        </div>
-
-        <div className='sm:px-16 px-6 bg-primary flex justify-center items-start'>
-          <div className='xl:max-w-[1280px] w-full'>
-            <About />
-          </div>
-        </div>
         <Routes>
+          <Route path="/" element={
+            <>
+              <div className='bg-primary flex justify-center items-start'>
+                <div className='xl:max-w-[1280px] w-full'>
+                  <Hero />
+                </div>
+              </div>
+              <div className='sm:px-16 px-6 bg-primary flex justify-center items-start'>
+                <div className='xl:max-w-[1280px] w-full'>
+                  <About />
+                </div>
+              </div>
+            </>
+          } />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path='/create' element={<Create />}></Route>
-          <Route path='/read' element={<Read />}></Route>
+          <Route path='/create' element={<Create />} />
+          <Route path='/read' element={<Read />} />
         </Routes>
       </div>
     </Router>
