@@ -59,11 +59,11 @@ function Register() {
                   </label>
                   <input
                     type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     autoComplete="true"
                     className="border rounded-md p-2 w-full"
                   />
@@ -86,7 +86,7 @@ function Register() {
                 {error && <p className="text-red-500">{error}</p>}
       
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-                  Login
+                  Register
                 </button>
               </form>
             </div>
