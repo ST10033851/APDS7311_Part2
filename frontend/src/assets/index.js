@@ -5,6 +5,10 @@ import Cash from './Cash.png'
 import Graph from './Graph.png'
 import Protect from './Protect.png'
 import logo from './logo.png'
+import color2 from './color2.jpg'
+import account_circle from './account_circle.svg'
+import lock from './lock.svg'
+import mail from './email.svg'
 
 export {
     close,
@@ -13,5 +17,9 @@ export {
     Cash,
     Protect,
     Graph,
-    logo
+    logo,
+    lock,
+    account_circle,
+    color2,
+    mail
 }

@@ -8,7 +8,7 @@ function Navbar() {
   const [toggle, setToggle] = useState(false)
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar z-[30]">
-      <img src={logo} alt = "name" className='w-[160px] h-[160px]'/>
+      <img src={logo} alt = "name" className='w-[160px] h-[50px]'/>
       <ul className="list-none sm:flex hidden justify-end item-center flex-1">
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
           <Link to="/">Home</Link>

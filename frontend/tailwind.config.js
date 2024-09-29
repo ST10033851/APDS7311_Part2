@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import {color2} from '../frontend/src/assets'
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   mode: "jit",
@@ -9,6 +10,9 @@ module.exports = {
         secondary: "#00f6ff",
         dimWhite: "rgba(255, 255, 255, 0.7)",
         dimBlue: "rgba(9, 151, 124, 0.1)",
+      },
+      backgroundImage: {
+        'color2': "url('assets/color2.jpg')",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
