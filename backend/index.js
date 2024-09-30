@@ -22,7 +22,7 @@ app.use(morgan('combined')); // Log HTTP requests
 
 // Routes
 app.use('/api/auth',authRoutes);
-app.use('/api',postRoutes);
+app.use('/api/transaction',postRoutes);
 
 // SSL Certificate and Key
 const options = {

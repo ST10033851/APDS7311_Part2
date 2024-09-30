@@ -24,34 +24,37 @@ function Create() {
       setCreatedAt(new Date().toISOString());
       setUpdatedAt(new Date().toISOString());
       setRecipient("Kaushil");
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        console.log("Token found:", token);
+      } else {
+        console.log("No token found. User might not be logged in.");
+      }
+
       const response = await axios.post("/api/transaction/create", {
-            transactionTitle,
-            amount,
-            currency,
-            recipient,
-            transactionStatus,
-            description, 
-            createdAt, 
-            updatedAt
-        });
+        transactionTitle,
+        amount,
+        currency,
+        recipient,
+        transactionStatus,
+        description,
+        createdAt,
+        updatedAt,
+      });
       if (response.status === 201) {
         navigate("/");
       }
-      console.log('Transaction created:', response.data);
-  } catch (err) {
-    
-    if (err.response) {
-    } else if (err.request) {
-
-      setError('No response received from server');
-
-
-    } else {
-      setError('Error: ' + err.message);
-      
+      console.log("Transaction created:", response.data);
+    } catch (err) {
+      if (err.response) {
+      } else if (err.request) {
+        setError("No response received from server");
+      } else {
+        setError("Error: " + err.message);
+      }
     }
-  }
-};
+  };
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex">
