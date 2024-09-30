@@ -5,11 +5,6 @@ import mongoose from 'mongoose';
 
 const router = express.Router();
 
-// Base route
-router.get("/", (req, res) => {
-    res.send("Welcome to the Payment API");
-});
-
 // Route to create a payment transaction
 router.post("/create", authMiddleware, async (req, res) => {
     const { transactionTitle, amount, currency, recipient, transactionStatus, description, createdAt, updatedAt } = req.body;

@@ -42,21 +42,16 @@ function Create() {
       if (response.status === 201) {
         navigate("/");
       }
-      console.log('Transaction created:', response.data);
-  } catch (err) {
-    
-    if (err.response) {
-    } else if (err.request) {
-
-      setError('No response received from server');
-
-
-    } else {
-      setError('Error: ' + err.message);
-      
+      console.log("Transaction created:", response.data);
+    } catch (err) {
+      if (err.response) {
+      } else if (err.request) {
+        setError("No response received from server");
+      } else {
+        setError("Error: " + err.message);
+      }
     }
-  }
-};
+  };
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex">
