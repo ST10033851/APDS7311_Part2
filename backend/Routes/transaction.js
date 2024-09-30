@@ -1,6 +1,7 @@
 import express from 'express';
 import Payment from '../models/Transaction.js'; // Keep it as Payment if that's what you're calling it
 import authMiddleware from '../middleware/authMiddleware.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -10,11 +11,11 @@ router.get("/", (req, res) => {
 });
 
 // Route to create a payment transaction
-router.post("/", authMiddleware, async (req, res) => {
-    const { transactionTitle, amount, currency, recipient, transactionStatus, description } = req.body;
+router.post("/create", authMiddleware, async (req, res) => {
+    const { transactionTitle, amount, currency, recipient, transactionStatus, description, createdAt, updatedAt } = req.body;
 
     // Ensure all required fields are provided
-    if (!transactionTitle || !amount || !currency || !recipient) {
+    if (!transactionTitle || !amount || !currency || !transactionStatus || !description) {
         return res.status(400).json({ error: "All required fields must be filled" });
     }
 
@@ -25,7 +26,9 @@ router.post("/", authMiddleware, async (req, res) => {
             currency,
             recipient,
             transactionStatus,
-            description
+            description, 
+            createdAt, 
+            updatedAt
         });
 
         const savedPayment = await newPayment.save();
@@ -34,6 +37,7 @@ router.post("/", authMiddleware, async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
+
 
 // Route to update a payment transaction by ID
 router.put("/:id", authMiddleware, async (req, res) => {
@@ -98,5 +102,8 @@ router.get("/:recipient", authMiddleware, async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 });
+
+//const Transaction = mongoose.model("Transaction", newPayment);
+
 
 export default router;
