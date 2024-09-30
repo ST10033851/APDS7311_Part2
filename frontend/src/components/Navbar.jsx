@@ -11,19 +11,19 @@ function Navbar() {
       <img src={logo} alt = "name" className='w-[170px] h-[50px]'/>
       <ul className="list-none sm:flex hidden justify-end item-center flex-1">
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <Link to="/" className='hover:text-blue-500 transition-all duration-300'>Home</Link>
+          <Link to="/" className='hover:text-blue-400 transition-all duration-300'>Home</Link>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <a href="/login">Login</a>
+          <a className='hover:text-blue-400 transition-all duration-300' href="/login">Login</a>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <Link to="/register">Register</Link>
+          <Link className='hover:text-blue-400 transition-all duration-300' to="/register">Register</Link>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <Link to="/create">Create</Link>
+          <Link className='hover:text-blue-400 transition-all duration-300' to="/create">Create</Link>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-0`}>
-          <Link to="/read">Read</Link>
+          <Link className='hover:text-blue-400 transition-all duration-300' to="/read">Read</Link>
         </li>
       </ul>
       
