@@ -11,7 +11,7 @@ function Navbar() {
       <img src={logo} alt = "name" className='w-[170px] h-[50px]'/>
       <ul className="list-none sm:flex hidden justify-end item-center flex-1">
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-          <Link to="/">Home</Link>
+          <Link to="/" className='hover:text-blue-500 transition-all duration-300'>Home</Link>
         </li>
         <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
           <a href="/login">Login</a>

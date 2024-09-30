@@ -6,8 +6,8 @@ import Login from './components/auth/Login';
 import styles from './style';
 import Hero from './components/Hero'
 import About from './components/About'
-import Create from './components/CRUD/Create';
-import Read from './components/CRUD/Read';
+import Create from './components/crud/Create';
+import Read from './components/crud/Read';
 
 function App() {
   return (

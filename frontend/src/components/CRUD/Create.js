@@ -7,33 +7,38 @@ function Create() {
   const [transactionTitle, setTransactionTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("");
-  const [recipient, setRecipient] = useState("");
   const [transactionStatus, setTransactionStatus] = useState("");
   const [description, setDescription] = useState("");
-  const [createdAt, setCreatedAt] = useState(new Date().toISOString());
-  const [updatedAt, setUpdatedAt] = useState(new Date().toISOString());
   const navigate = useNavigate();
   const statusOptions = ["Pending", "Completed", "Failed"];
   const currencyOptions = ["ZAR", "EUR", "GBP", "USD"];
   const [error, setError] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     //setError('');
-
+    const token = localStorage.getItem('token');
     try {
-      setCreatedAt(new Date().toISOString());
-      setUpdatedAt(new Date().toISOString());
-      setRecipient("Kaushil");
-      const response = await axios.post("/api/transaction/create", {
-            transactionTitle,
-            amount,
-            currency,
-            recipient,
-            transactionStatus,
-            description, 
-            createdAt, 
-            updatedAt
-        });
+      const createdAt = new Date().toISOString();
+      const updatedAt = new Date().toISOString();
+      const recipient = "Jereshan2";
+
+      const response = await axios.post("/api/create", {
+        transactionTitle,
+        amount,
+        currency,
+        recipient,
+        transactionStatus,
+        description, 
+        createdAt, 
+        updatedAt
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
       if (response.status === 201) {
         navigate("/");
       }
