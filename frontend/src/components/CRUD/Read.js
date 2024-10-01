@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { color2, account_circle, lock, mail } from "../../assets";
+import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import EditTransactionModal from "../EditTransactionModal.js";
 
 function Read() {
   const [transactions, setTransactions] = useState([]);
+  const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [transactionToEdit, setTransactionToEdit] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -28,6 +32,49 @@ function Read() {
     fetchTransactions();
   }, []);
 
+  const deleteTransaction = async () => {
+    if (!transactionToDelete) return;
+
+    const id = transactionToDelete._id;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`/api/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTransactions(transactions.filter(item => item._id !== id));
+      setTransactionToDelete(null);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to delete transaction");
+    }
+  };
+
+  const confirmDelete = (transaction) => {
+    setTransactionToDelete(transaction);
+  };
+
+  const cancelDelete = () => {
+    setTransactionToDelete(null);
+  };
+
+  const handleUpdateTransaction = async (id, updatedData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(`/api/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTransactions(transactions.map(item => (item._id === id ? response.data : item)));
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update transaction");
+    }
+  };
+
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div
@@ -45,6 +92,7 @@ function Read() {
         >
           View Transactions
         </h1>
+        {error && <p className="text-red-500">{error}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -86,6 +134,7 @@ function Read() {
                   <a
                     href="#"
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    onClick={() => setTransactionToEdit(item)}
                   >
                     Edit
                   </a>
@@ -94,6 +143,7 @@ function Read() {
                   <a
                     href="#"
                     className="font-medium text-blue-600 dark:text-red-500 hover:underline"
+                    onClick={() => confirmDelete(item)}
                   >
                     Delete
                   </a>
@@ -102,6 +152,23 @@ function Read() {
             ))}
           </tbody>
         </table>
+
+        {transactionToDelete && (
+          <DeleteConfirmationModal
+            transaction={transactionToDelete}
+            onDelete={deleteTransaction}
+            onCancel={cancelDelete}
+          />
+        )}
+
+        {transactionToEdit && (
+          <EditTransactionModal
+            transaction={transactionToEdit}
+            onClose={() => setTransactionToEdit(null)}
+            onUpdate={handleUpdateTransaction}
+          />
+        )}
+        
       </div>
     </div>
   );
