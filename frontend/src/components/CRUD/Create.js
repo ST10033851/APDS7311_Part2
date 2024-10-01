@@ -18,6 +18,7 @@ function Create() {
     e.preventDefault();
     //setError('');
     const token = localStorage.getItem('token');
+    //const username = localStorage.getItem('username');
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
@@ -43,12 +44,12 @@ function Create() {
         navigate("/");
       }
       console.log("Transaction created:", response.data);
-    } catch (err) {
-      if (err.response) {
-      } else if (err.request) {
-        setError("No response received from server");
-      } else {
-        setError("Error: " + err.message);
+    } catch(err){
+      if(err.response){
+          setError(err.response.data.message)
+      }
+      else{
+          setError("Something went wrong. Please try again.")
       }
     }
   };
