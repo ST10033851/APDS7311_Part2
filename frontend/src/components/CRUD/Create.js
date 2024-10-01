@@ -25,6 +25,7 @@ function Create() {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
 
+
       const response = await axios.post("/api/create", {
         transactionTitle,
         amount,
@@ -106,9 +107,9 @@ function Create() {
                 <option value="" disabled>
                   Select Currency
                 </option>
-                {currencyOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
+                {currencyOptions.map((currencies) => (
+                  <option key={currencies} value={currencies}>
+                    {currencies}
                   </option>
                 ))}
               </select>
