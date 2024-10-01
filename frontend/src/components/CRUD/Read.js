@@ -11,7 +11,9 @@ function Read() {
     const fetchTransactions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const recipient = "Jereshan2";
+        const recipient = localStorage.getItem("recipient");
+
+        //const recipient = "Jereshan2";
 
         const response = await axios.get(`/api/${recipient}`, {
           headers: {

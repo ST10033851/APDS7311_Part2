@@ -18,11 +18,12 @@ function Create() {
     e.preventDefault();
     //setError('');
     const token = localStorage.getItem('token');
+    const recipient = localStorage.getItem('recipient');
+
     //const username = localStorage.getItem('username');
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
-      const recipient = "Jereshan2";
 
       const response = await axios.post("/api/create", {
         transactionTitle,
