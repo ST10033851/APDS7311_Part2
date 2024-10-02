@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { color2, account_circle, lock, mail } from "../../assets";
 
 function Create() {
   const [transactionTitle, setTransactionTitle] = useState("");
@@ -17,153 +16,134 @@ function Create() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //setError('');
-    const token = localStorage.getItem('token');
-    const recipient = localStorage.getItem('recipient');
+    const token = localStorage.getItem("token");
+    const recipient = localStorage.getItem("recipient");
 
     //const username = localStorage.getItem('username');
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
 
+      const response = await axios.post(
+        "/api/create",
+        {
+          transactionTitle,
+          amount,
+          currency,
+          recipient,
+          transactionStatus,
+          description,
+          createdAt,
+          updatedAt,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      const response = await axios.post("/api/create", {
-        transactionTitle,
-        amount,
-        currency,
-        recipient,
-        transactionStatus,
-        description, 
-        createdAt, 
-        updatedAt
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
       if (response.status === 201) {
         navigate("/");
       }
       console.log("Transaction created:", response.data);
-    } catch(err){
-      if(err.response){
-          setError(err.response.data.message)
-      }
-      else{
-          setError("Something went wrong. Please try again.")
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
       }
     }
   };
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex">
-        <div className="w-1/2 p-8 flex flex-col justify-center">
-          <h1 className="text-3xl font-semibold mb-8 text-center">
-            Add Transaction
-          </h1>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <label htmlFor="transactionTitle">
-                <img src={account_circle} alt="account" className="w-6 h-6" />
-              </label>
-              <input
-                type="text"
-                id="transactionTitle"
-                name="transactionTitle"
-                placeholder="Transaction Title"
-                value={transactionTitle}
-                onChange={(e) => setTransactionTitle(e.target.value)}
-                autoComplete="true"
-                className="border rounded-md p-2 w-full"
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <label htmlFor="amount">
-                <img src={mail} alt="email" className="w-6 h-6" />
-              </label>
-              <input
-                type="number"
-                id="amount"
-                name="amount"
-                placeholder="Amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                autoComplete="true"
-                className="border rounded-md p-2 w-full"
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <label htmlFor="currency">
-                <img src={lock} alt="passwordImg" className="w-6 h-6" />
-              </label>
-              <select
-                id="currency"
-                name="currency"
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="border rounded-md p-2 w-full"
-              >
-                <option value="" disabled>
-                  Select Currency
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex flex-col justify-start items-center">
+        <h1 className="text-3xl font-semibold mt-4 mb-4 text-center">
+          Add Transaction
+        </h1>
+        <form className="max-w-md mx-auto w-full" onSubmit={handleSubmit}>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="text"
+              id="transactionTitle"
+              name="transactionTitle"
+              placeholder="Transaction Title"
+              value={transactionTitle}
+              onChange={(e) => setTransactionTitle(e.target.value)}
+              autoComplete="true"
+              className="border rounded-md p-2 w-full"
+            />
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              autoComplete="true"
+              className="border rounded-md p-2 w-full"
+            />
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <select
+              id="currency"
+              name="currency"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="border rounded-md p-2 w-full"
+            >
+              <option value="" disabled>
+                Select Currency
+              </option>
+              {currencyOptions.map((currencies) => (
+                <option key={currencies} value={currencies}>
+                  {currencies}
                 </option>
-                {currencyOptions.map((currencies) => (
-                  <option key={currencies} value={currencies}>
-                    {currencies}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex items-center space-x-2">
-              <label htmlFor="description">
-                <img src={account_circle} alt="account" className="w-6 h-6" />
-              </label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                autoComplete="true"
-                className="border rounded-md p-2 w-full"
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <label htmlFor="transactionStatus">
-                <img src={account_circle} alt="account" className="w-6 h-6" />
-              </label>
-              <select
-                id="transactionStatus"
-                name="transactionStatus"
-                value={transactionStatus}
-                onChange={(e) => setTransactionStatus(e.target.value)}
-                className="border rounded-md p-2 w-full"
-              >
-                <option value="" disabled>
-                  Select Transaction Status
+              ))}
+            </select>
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="text"
+              id="description"
+              name="description"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              autoComplete="true"
+              className="border rounded-md p-2 w-full"
+            />
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <select
+              id="transactionStatus"
+              name="transactionStatus"
+              value={transactionStatus}
+              onChange={(e) => setTransactionStatus(e.target.value)}
+              className="border rounded-md p-2 w-full"
+            >
+              <option value="" disabled>
+                Select Transaction Status
+              </option>
+              {statusOptions.map((status) => (
+                <option key={status} value={status}>
+                  {status}
                 </option>
-                {statusOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-            </div>
-
+              ))}
+            </select>
+          </div>
+          <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md w-full"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-40 h-12 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Add
             </button>
-          </form>
-        </div>
-
-        <div
-          className="w-1/2 bg-cover bg-right rounded-r-lg"
-          style={{ backgroundImage: `url(${color2})` }}
-        ></div>
+          </div>
+        </form>
       </div>
     </div>
   );
