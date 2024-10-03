@@ -1,51 +1,50 @@
 // src/components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { close, menu, logo } from '../assets'
+import { AuthContext } from '../components/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const isLoggedIn = localStorage.getItem('token');
-
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const [toggle, setToggle] = useState(false)
+  const navigate = useNavigate();
+
+
+  const logoutClick = () => {
+    logout();
+    navigate('/');
+  };
+
+  
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar z-[30]">
-      <img src={logo} alt="name" className="w-[170px] h-[50px]" />
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        <li className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-10">
-          <Link to="/" className="hover:text-blue-400 transition-all duration-300">
-            Home
-          </Link>
+      <img src={logo} alt="name" className='w-[170px] h-[50px]' />
+      <ul className="list-none sm:flex hidden justify-end item-center flex-1">
+        <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+          <Link to="/" className='hover:text-blue-400 transition-all duration-300'>Home</Link>
         </li>
 
-        {/* This will only show the user the login and register links if they are not logged in*/}
-        {!isLoggedIn && (
+        {!isAuthenticated ? (
           <>
-            <li className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-10">
-              <Link to="/login" className="hover:text-blue-400 transition-all duration-300">
-                Login
-              </Link>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/login" className='hover:text-blue-400 transition-all duration-300'>Login</Link>
             </li>
-            <li className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-10">
-              <Link to="/register" className="hover:text-blue-400 transition-all duration-300">
-                Register
-              </Link>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register</Link>
             </li>
           </>
-        )}
-
-        {/* This will show the read and create links if the user is  logged in */}
-        {isLoggedIn && (
+        ) : (
           <>
-            <li className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-10">
-              <Link to="/create" className="hover:text-blue-400 transition-all duration-300">
-                Create
-              </Link>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/create" className='hover:text-blue-400 transition-all duration-300'>Create</Link>
             </li>
-            <li className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-0">
-              <Link to="/read" className="hover:text-blue-400 transition-all duration-300">
-                Read
-              </Link>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/read" className='hover:text-blue-400 transition-all duration-300'>Read</Link>
+            </li>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`} onClick={logoutClick}>
+              <span className='hover:text-blue-400 transition-all duration-300 cursor-pointer'>Logout</span>
             </li>
           </>
         )}

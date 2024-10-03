@@ -1,13 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useContext } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import {color2, account_circle, lock } from '../../assets'
+import { AuthContext } from '../AuthContext';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,6 +19,7 @@ function Login() {
             const response = await axios.post('/api/auth/login', {username, password})
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('recipient', username);
+            login(username, response.data.token);
             navigate('/');
 
         }catch(err){

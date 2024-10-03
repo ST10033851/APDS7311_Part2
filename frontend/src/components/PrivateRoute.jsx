@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
-//This component will be used to protect chosen routes
 const PrivateRoute = ({ children }) => {
-  const isLoggedIn = localStorage.getItem('token');
+  const { isAuthenticated } = useContext(AuthContext);
 
-  //If user is not logged in, they will be redirected to the home page
-  return isLoggedIn ? children : <Navigate to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
+
