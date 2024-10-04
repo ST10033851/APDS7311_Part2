@@ -18,11 +18,25 @@ function Create() {
     //setError('');
     const token = localStorage.getItem("token");
     const recipient = localStorage.getItem("recipient");
+    const titlePattern = /^.{3,35}$/;//allows all characters from 3 to 35 characters
+    const pricePattern = /^\d*\.?\d+$/;//allows both decimals or normal whole numbers
+    const descriptionPattern = /^.{3,100}$/;//allows all characters from 3 to 100 characters
+
 
     //const username = localStorage.getItem('username');
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
+
+      if(!titlePattern.test(transactionTitle)){
+        return setError("Please enter a name with less then 35 characters.");
+      }
+      if(!pricePattern.test(amount)){
+        return setError("Please enter a valid amount.");
+      }
+      if(!descriptionPattern.test(description)){
+        return setError("Please enter a name with less then 100 characters.");
+      }
 
       const response = await axios.post(
         "/api/create",
@@ -62,6 +76,7 @@ function Create() {
         <h1 className="text-3xl font-semibold mt-4 mb-4 text-center">
           Add Transaction
         </h1>
+        {error && <p className="text-red-500">{error}</p>}
         <form className="max-w-md mx-auto w-full" onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-5 group">
             <input
