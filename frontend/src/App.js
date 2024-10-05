@@ -11,6 +11,11 @@ import Read from './components/CRUD/Read';
 import PrivateRoute from './components/PrivateRoute'
 import {AuthProvider} from './components/AuthContext'
 
+//Javascript Mastery - Build and Deploy a fully responsive website with modern UI/UX in React JS with Tailwind
+//https://youtu.be/_oO4Qi5aVZs?si=hekjKfTG04zXcKBW
+
+//Includes a Navbar, Hero and paths for the login, register , create and read pages
+//The create and read paths will have protected routes disabling users from modifying the url to access restricted pages
 function App() {
   return (
     <AuthProvider>

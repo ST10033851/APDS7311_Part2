@@ -1,3 +1,6 @@
+//Javascript Mastery - Build and Deploy a fully responsive website with modern UI/UX in React JS with Tailwind
+//https://youtu.be/_oO4Qi5aVZs?si=hekjKfTG04zXcKBW
+
 const styles = {
     boxWidth: "xl:max-w-[1280px] w-full",
   

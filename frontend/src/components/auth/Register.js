@@ -10,6 +10,8 @@ function Register() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    //This is used to post the username, email and password to the register end point
+    //and redirects the user back to the home page after a successfull registration
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -32,6 +34,20 @@ function Register() {
             
         }
     };
+
+    const handlePasswordChange = (e) => {
+      const newPassword = e.target.value;
+      setPassword(newPassword);
+  
+      //This will check if the password has 8 characters and atleast 1 number
+      const passwordRegex = /^(?=.*[0-9])(?=.{8,})/;
+  
+      if (!passwordRegex.test(newPassword)) {
+          setError('Password must be at least 8 characters long and contain at least one number.');
+      } else {
+          setError('');
+      }
+  };
     
     return(
         <div className="bg-primary bg-cover h-screen flex justify-center items-center">
@@ -81,7 +97,7 @@ function Register() {
                     name="password"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     className="border rounded-md p-2 w-full"
                   />
                 </div>

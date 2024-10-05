@@ -11,7 +11,7 @@ function Navbar() {
   const [toggle, setToggle] = useState(false)
   const navigate = useNavigate();
 
-
+  //Redirects the user to the hom page when the logout button is clicked
   const logoutClick = () => {
     logout();
     navigate('/');
@@ -26,6 +26,7 @@ function Navbar() {
           <Link to="/" className='hover:text-blue-400 transition-all duration-300'>Home</Link>
         </li>
 
+        {/* This checks if the user is not logged in and only shows the login and register links */}
         {!isAuthenticated ? (
           <>
             <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
@@ -37,6 +38,7 @@ function Navbar() {
           </>
         ) : (
           <>
+          {/* This checks if the user is logged in and shows the create, read and logout links */}
             <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
               <Link to="/create" className='hover:text-blue-400 transition-all duration-300'>Create</Link>
             </li>
@@ -50,6 +52,7 @@ function Navbar() {
         )}
       </ul>
       
+      {/* This is just a menu for mobile for responsiveness */}
       <div className='sm:hidden flex flex-1 justify-end items-center'>
         <img src={toggle ? close : menu } alt='menu' className='w-[28px] h-[28px] object-contain' onClick={() => setToggle((prev) => !prev)}/>
 

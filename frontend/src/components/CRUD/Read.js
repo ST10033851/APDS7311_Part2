@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { color2, account_circle, lock, mail } from "../../assets";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import EditTransactionModal from "../EditTransactionModal.js";
 
@@ -16,8 +14,6 @@ function Read() {
       try {
         const token = localStorage.getItem("token");
         const recipient = localStorage.getItem("recipient");
-
-        //const recipient = "Jereshan2";
 
         const response = await axios.get(`/api/${recipient}`, {
           headers: {
