@@ -1,3 +1,7 @@
+// This code was inspired by a YouTube video
+// Title: Build a Modal Component purely in ReactJS and TailwindCSS
+// Uploaded by: Your Code Lab
+// Available at: https://www.youtube.com/watch?v=dEGbXY-8YtU
 import React from 'react';
 
 const DeleteConfirmationModal = ({ transaction, onDelete, onCancel }) => {

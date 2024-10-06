@@ -28,6 +28,10 @@ function Read() {
     fetchTransactions();
   }, []);
 
+  // This code was inspired by a YouTube video
+  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
+  // Uploaded by: Dear Programmer
+  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
   const deleteTransaction = async () => {
     if (!transactionToDelete) return;
 
@@ -48,6 +52,10 @@ function Read() {
     }
   };
 
+  // This code was inspired by a YouTube video
+  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
+  // Uploaded by: Dear Programmer
+  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
   const confirmDelete = (transaction) => {
     setTransactionToDelete(transaction);
   };
@@ -56,6 +64,10 @@ function Read() {
     setTransactionToDelete(null);
   };
 
+  // This code was inspired by a YouTube video
+  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
+  // Uploaded by: Dear Programmer
+  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
   const handleUpdateTransaction = async (id, updatedData) => {
     try {
       const token = localStorage.getItem("token");
@@ -148,7 +160,13 @@ function Read() {
             ))}
           </tbody>
         </table>
-
+        
+        {/* 
+          This code was inspired by a YouTube video
+          Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
+          Uploaded by: Dear Programmer
+          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 */
+        }
         {transactionToDelete && (
           <DeleteConfirmationModal
             transaction={transactionToDelete}
