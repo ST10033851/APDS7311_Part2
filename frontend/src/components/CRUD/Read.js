@@ -45,7 +45,7 @@ function Read() {
         },
       });
 
-      setTransactions(transactions.filter(item => item._id !== id));
+      setTransactions(transactions.filter((item) => item._id !== id));
       setTransactionToDelete(null);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to delete transaction");
@@ -77,12 +77,18 @@ function Read() {
         },
       });
 
-      setTransactions(transactions.map(item => (item._id === id ? response.data : item)));
+      setTransactions(
+        transactions.map((item) => (item._id === id ? response.data : item))
+      );
     } catch (err) {
       setError(err.response?.data?.error || "Failed to update transaction");
     }
   };
 
+  // This code was inspired by Flowbite
+  // Title: Tailwind CSS Table - Flowbite
+  // Uploaded by: Flowbite
+  // Available at: https://flowbite.com/docs/components/tables/
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div
@@ -160,13 +166,12 @@ function Read() {
             ))}
           </tbody>
         </table>
-        
+
         {/* 
           This code was inspired by a YouTube video
           Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
           Uploaded by: Dear Programmer
-          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 */
-        }
+          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 */}
         {transactionToDelete && (
           <DeleteConfirmationModal
             transaction={transactionToDelete}
@@ -182,7 +187,6 @@ function Read() {
             onUpdate={handleUpdateTransaction}
           />
         )}
-        
       </div>
     </div>
   );

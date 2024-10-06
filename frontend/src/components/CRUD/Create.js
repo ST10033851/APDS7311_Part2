@@ -18,23 +18,27 @@ function Create() {
     //setError('');
     const token = localStorage.getItem("token");
     const recipient = localStorage.getItem("recipient");
-    const titlePattern = /^.{3,35}$/;//allows all characters from 3 to 35 characters
-    const pricePattern = /^\d*\.?\d+$/;//allows both decimals or normal whole numbers
-    const descriptionPattern = /^.{3,100}$/;//allows all characters from 3 to 100 characters
+    const titlePattern = /^[a-zA-Z0-9_]{3,35}$/; //allows all characters from 3 to 35 characters
+    const pricePattern = /^\d*\.?\d+$/; //allows both decimals or normal whole numbers
+    const descriptionPattern = /^[a-zA-Z0-9_]{3,100}$/; //allows all characters from 3 to 100 characters
 
+    // This code was inspired by mdn web docs
+    // Title: Regular expressions
+    // Uploaded by: mdn web docs
+    // Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions
 
     //const username = localStorage.getItem('username');
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
 
-      if(!titlePattern.test(transactionTitle)){
+      if (!titlePattern.test(transactionTitle)) {
         return setError("Please enter a name with less then 35 characters.");
       }
-      if(!pricePattern.test(amount)){
+      if (!pricePattern.test(amount)) {
         return setError("Please enter a valid amount.");
       }
-      if(!descriptionPattern.test(description)){
+      if (!descriptionPattern.test(description)) {
         return setError("Please enter a name with less then 100 characters.");
       }
 
@@ -163,5 +167,10 @@ function Create() {
     </div>
   );
 }
+
+// This code was inspired by Flowbite
+// Title: Tailwind CSS Forms - Flowbite
+// Uploaded by: Flowbite
+// Available at: https://flowbite.com/docs/components/forms/
 
 export default Create;
