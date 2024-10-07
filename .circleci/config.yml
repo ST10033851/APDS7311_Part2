@@ -1,0 +1,86 @@
+#This code was inspired by Anshumaan Singh
+#Title: Setting Up CircleCI for Your Project: A Complete Guide
+#Uploaded by: medium
+#Available at: https://medium.com/@anshumaansingh10jan/setting-up-circleci-for-your-project-a-complete-guide-84909a439bd5
+
+version: 2.1
+
+jobs:
+  backend:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+
+      #This is used to restore the backend cache for the node_modules so that the dependencies are re-used each build
+      - restore_cache:
+          keys:
+            - backend-dependencies-{{ checksum "PalPayPaymentsPlatform/backend/package-lock.json" }}
+            - backend-dependencies-
+
+      - run:
+          name: Install backend dependencies
+          command: |
+            cd PalPayPaymentsPlatform/backend
+            npm install
+
+      #This saves the backends cache
+      - save_cache:
+          paths:
+            - PalPayPaymentsPlatform/backend/node_modules
+          key: backend-dependencies-{{ checksum "PalPayPaymentsPlatform/backend/package-lock.json" }}
+
+      - run:
+          name: Run backend tests
+          command: |
+            cd PalPayPaymentsPlatform/backend
+            npm test
+
+      - run:
+          name: Start backend
+          command: |
+            cd PalPayPaymentsPlatform/backend
+            npm run dev
+
+  frontend:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+
+      #This is used to restore the frontend cache for the node_modules so that the dependencies are re-used each build
+      - restore_cache:
+          keys:
+            - frontend-dependencies-{{ checksum "PalPayPaymentsPlatform/frontend/package-lock.json" }}
+            - frontend-dependencies-
+
+      - run:
+          name: Install frontend dependencies
+          command: |
+            cd PalPayPaymentsPlatform/frontend
+            npm install
+
+      #This saves the frontends cache
+      - save_cache:
+          paths:
+            - PalPayPaymentsPlatform/frontend/node_modules
+          key: frontend-dependencies-{{ checksum "PalPayPaymentsPlatform/frontend/package-lock.json" }}
+
+      - run:
+          name: Run frontend tests
+          command: |
+            cd PalPayPaymentsPlatform/frontend
+            npm test
+
+      - run:
+          name: Build frontend
+          command: |
+            cd PalPayPaymentsPlatform/frontend
+            npm run start
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - backend
+      - frontend
