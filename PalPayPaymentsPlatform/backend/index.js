@@ -24,17 +24,17 @@ app.use(morgan('combined')); // Log HTTP requests
 app.use('/api/auth',authRoutes);
 app.use('/api',postRoutes);
 
+app.use(cors({
+    origin: 'https://localhost:3000',
+    credentials: true,  
+}));
+
 // SSL Certificate and Key
 const options = {
     key: fs.readFileSync('keys/privatekey.pem'),
     cert: fs.readFileSync('keys/certificate.pem'),
 }
 
-
-//https.createServer(options, app).listen(PORT, () => {
- //   console.log(`Server is running on port ${PORT}`)
-//})
-
-app.listen(PORT, () => {
-    console.log(`Server us running on port ${PORT}`)
+https.createServer(options, app).listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
 })
