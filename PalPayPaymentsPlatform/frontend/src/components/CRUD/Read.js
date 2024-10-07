@@ -126,6 +126,9 @@ function Read() {
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
+                Payment Method
+              </th>
+              <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Edit</span>
               </th>
               <th scope="col" className="px-6 py-3">
@@ -144,6 +147,7 @@ function Read() {
                 <td className="px-6 py-4">{item.currency}</td>
                 <td className="px-6 py-4">{item.description}</td>
                 <td className="px-6 py-4">{item.transactionStatus}</td>
+                <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4 text-right">
                   <a
                     href="#"
