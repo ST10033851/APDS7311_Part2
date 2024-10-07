@@ -14,6 +14,9 @@ import checkList from './checkList.svg'
 import description from './description.svg'
 import money from './money.svg'
 import money_universal from './money_universal.svg'
+import id_icon from './id_icon.svg'
+import account_number_icon from './account_number_icon.svg'
+import name_icon from './name_icon.svg'
 
 export {
     close,
@@ -31,5 +34,8 @@ export {
     checkList,
     description,
     money,
-    money_universal
+    money_universal,
+    id_icon,
+    account_number_icon,
+    name_icon
 }

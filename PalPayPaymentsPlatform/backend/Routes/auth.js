@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // Register
 router.post('/register', async (req, res) => {
     try{
-        const { username, email, password} = req.body;
+        const { username, email, password, IDNumber, fullName, accountNumber} = req.body;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ $or: [{username}, {email}]})
@@ -28,7 +28,7 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // create the new user
-        const newUser = new User({username, email, password: hashedPassword});
+        const newUser = new User({username, email, IDNumber, fullName, accountNumber, password: hashedPassword});
         await newUser.save();
 
         return res.status(201).json({message:'User created successfully'})
