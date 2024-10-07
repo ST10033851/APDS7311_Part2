@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import EditTransactionModal from "../EditTransactionModal.js";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 function Read() {
   const [transactions, setTransactions] = useState([]);
@@ -148,34 +149,40 @@ function Read() {
                 <td className="px-6 py-4">{item.description}</td>
                 <td className="px-6 py-4">{item.transactionStatus}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
+                
                 <td className="px-6 py-4 text-right">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  <button
                     onClick={() => setTransactionToEdit(item)}
+                    className="text-blue-600 dark:text-blue-500 hover:text-blue-700"
+                    aria-label="Edit transaction"
                   >
-                    Edit
-                  </a>
+                    <FaEdit className="h-5 w-5 inline" />
+                  </button>
                 </td>
+                
                 <td className="px-6 py-4 text-right">
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 dark:text-red-500 hover:underline"
+                  <button
                     onClick={() => confirmDelete(item)}
+                    className="text-red-500 hover:text-red-700"
+                    aria-label="Delete transaction"
                   >
-                    Delete
-                  </a>
-                </td>
+                    <FaTrash className="h-5 w-5 inline" />
+                  </button>
+                </td>  
+
               </tr>
             ))}
           </tbody>
         </table>
 
-        {/* 
+        {
+          /* 
           This code was inspired by a YouTube video
           Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
           Uploaded by: Dear Programmer
-          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 */}
+          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 
+          */
+        }
         {transactionToDelete && (
           <DeleteConfirmationModal
             transaction={transactionToDelete}

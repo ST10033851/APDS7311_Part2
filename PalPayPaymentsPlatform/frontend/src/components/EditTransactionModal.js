@@ -3,10 +3,12 @@
 // Uploaded by: Your Code Lab
 // Available at: https://www.youtube.com/watch?v=dEGbXY-8YtU
 import React, { useEffect, useState, useRef } from "react";
-import { checkList, description, money, money_universal, title } from "../assets";
+import { FaMoneyBillWave, FaDollarSign, FaCreditCard, FaFileAlt, FaFlag } from "react-icons/fa";
+import { MdTextFields } from "react-icons/md";
 
-const currencyOptions = ["ZAR", "USD", "EUR", "GBP"]; // Replace with your actual currency options
-const statusOptions = ["Pending", "Completed", "Failed"]; // Replace with your actual status options
+const currencyOptions = ["ZAR", "USD", "EUR", "GBP"]; 
+const statusOptions = ["Pending", "Completed", "Failed"]; 
+const paymentOptions = ['SWIFT', 'Visa', 'Mastercard', 'Amazon Pay']; 
 
 const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -15,9 +17,10 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
     currency: "",
     description: "",
     transactionStatus: "",
+    paymentMethod: "",
   });
 
-  const modalRef = useRef(null); // Ref to the modal
+  const modalRef = useRef(null); 
 
   useEffect(() => {
     if (transaction) {
@@ -27,6 +30,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
         currency: transaction.currency,
         description: transaction.description,
         transactionStatus: transaction.transactionStatus,
+        paymentMethod: transaction.paymentMethod || "", 
       });
     }
   }, [transaction]);
@@ -34,7 +38,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose(); // Close the modal if clicked outside
+        onClose();
       }
     };
 
@@ -47,7 +51,6 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
   };
 
   const handleSubmit = async (e) => {
@@ -65,9 +68,11 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
       <div className="bg-white rounded-lg shadow-lg p-5" ref={modalRef}>
         <h2 className="text-xl font-bold mb-4">Edit Transaction</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* Transaction title row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="transactionTitle">
-              <img src={title} alt="account" className="w-6 h-6" />
+              <MdTextFields className="h-5 w-5" />
             </label>
             <input
               type="text"
@@ -82,9 +87,10 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             />
           </div>
 
+          {/* Transaction amount row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="amount">
-              <img src={money} alt="amount" className="w-6 h-6" />
+              <FaMoneyBillWave className="h-5 w-5" />
             </label>
             <input
               type="number"
@@ -99,9 +105,10 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             />
           </div>
 
+          {/* Transaction currency row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="currency">
-              <img src={money_universal} alt="currency" className="w-6 h-6" />
+              <FaDollarSign className="h-5 w-5" />
             </label>
             <select
               id="currency"
@@ -120,9 +127,10 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             </select>
           </div>
 
+          {/* Transaction description row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="description">
-              <img src={description} alt="description" className="w-6 h-6" />
+              <FaFileAlt className="h-5 w-5" />
             </label>
             <textarea
               id="description"
@@ -135,10 +143,11 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
               required
             />
           </div>
-
+          
+          {/* Transaction Status row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="transactionStatus">
-              <img src={checkList} alt="status" className="w-6 h-6" />
+              <FaFlag className="h-5 w-5" />
             </label>
             <select
               id="transactionStatus"
@@ -157,6 +166,29 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             </select>
           </div>
 
+          {/* Payment Method row */}
+          <div className="flex items-center space-x-2">
+            <label htmlFor="paymentMethod">
+              <FaCreditCard className="h-5 w-5" />
+            </label>
+            <select
+              id="paymentMethod"
+              name="paymentMethod"
+              value={formData.paymentMethod}
+              onChange={handleChange}
+              className="border rounded-md p-2 w-full"
+              required
+            >
+              <option value="" disabled>Select Payment Method</option>
+              {paymentOptions.map((method) => (
+                <option key={method} value={method}>
+                  {method}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Update button */}
           <div className="flex justify-between">
             <button
               type="submit"
@@ -164,6 +196,8 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             >
               Update
             </button>
+
+            {/* Cancel button */}
             <button
               type="button"
               onClick={onClose}
