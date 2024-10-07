@@ -28,6 +28,12 @@ const paymentSchema = new mongoose.Schema({
         enum: ['Pending', 'Completed', 'Failed'],
         default: 'Pending'
     },
+    paymentMethod: { // Status of the payment
+        type: String,
+        required: true,
+        enum: ['SWIFT', 'Visa', 'Mastercard', 'Amazon Pay'],
+        default: 'Pending'
+    },
     description: { // Details about the transaction
         type: String,
         maxLength: 20000,

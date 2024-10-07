@@ -8,9 +8,11 @@ function Create() {
   const [currency, setCurrency] = useState("");
   const [transactionStatus, setTransactionStatus] = useState("");
   const [description, setDescription] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const navigate = useNavigate();
   const statusOptions = ["Pending", "Completed", "Failed"];
   const currencyOptions = ["ZAR", "EUR", "GBP", "USD"];
+  const paymentOptions = ['SWIFT', 'Visa', 'Mastercard', 'Amazon Pay'];
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -50,6 +52,7 @@ function Create() {
           currency,
           recipient,
           transactionStatus,
+          paymentMethod,
           description,
           createdAt,
           updatedAt,
@@ -120,6 +123,24 @@ function Create() {
               {currencyOptions.map((currencies) => (
                 <option key={currencies} value={currencies}>
                   {currencies}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <select
+              id="paymentMethod"
+              name="paymentMethod"
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="border rounded-md p-2 w-full"
+            >
+              <option value="" disabled>
+                Select Payment Method
+              </option>
+              {paymentOptions.map((paymentMethod) => (
+                <option key={paymentMethod} value={paymentMethod}>
+                  {paymentMethod}
                 </option>
               ))}
             </select>

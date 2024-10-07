@@ -14,6 +14,7 @@ router.post("/create", authMiddleware, async (req, res) => {
     recipient,
     transactionStatus,
     description,
+    paymentMethod,
     createdAt,
     updatedAt,
   } = req.body;
@@ -24,6 +25,7 @@ router.post("/create", authMiddleware, async (req, res) => {
     !amount ||
     !currency ||
     !transactionStatus ||
+    !paymentMethod ||
     !description
   ) {
     return res
@@ -39,6 +41,7 @@ router.post("/create", authMiddleware, async (req, res) => {
       recipient,
       transactionStatus,
       description,
+      paymentMethod,
       createdAt,
       updatedAt,
     });
@@ -60,6 +63,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
     recipient,
     transactionStatus,
     description,
+    paymentMethod,
   } = req.body;
 
   try {
@@ -72,6 +76,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
         recipient,
         transactionStatus,
         description,
+        paymentMethod,
         updatedAt: Date.now(), // Update the timestamp manually in case `transactionStatus` isn't modified
       },
       { new: true } // Return the updated document
