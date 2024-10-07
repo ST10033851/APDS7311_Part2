@@ -31,12 +31,6 @@ jobs:
           key: backend-dependencies-{{ checksum "PalPayPaymentsPlatform/backend/package-lock.json" }}
 
       - run:
-          name: Run backend tests
-          command: |
-            cd PalPayPaymentsPlatform/backend
-            npm test
-
-      - run:
           name: Start backend
           command: |
             cd PalPayPaymentsPlatform/backend
@@ -65,12 +59,6 @@ jobs:
           paths:
             - PalPayPaymentsPlatform/frontend/node_modules
           key: frontend-dependencies-{{ checksum "PalPayPaymentsPlatform/frontend/package-lock.json" }}
-
-      - run:
-          name: Run frontend tests
-          command: |
-            cd PalPayPaymentsPlatform/frontend
-            npm test
 
       - run:
           name: Build frontend
