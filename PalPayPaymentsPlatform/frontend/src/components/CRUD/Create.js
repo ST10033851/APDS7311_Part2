@@ -18,9 +18,9 @@ function Create() {
     //setError('');
     const token = localStorage.getItem("token");
     const recipient = localStorage.getItem("recipient");
-    const titlePattern = /^[a-zA-Z0-9_]{3,35}$/; //allows all characters from 3 to 35 characters
-    const pricePattern = /^\d*\.?\d+$/; //allows both decimals or normal whole numbers
-    const descriptionPattern = /^[a-zA-Z0-9_]{3,100}$/; //allows all characters from 3 to 100 characters
+    const titlePattern = /^.{3,35}$/;//allows all characters from 3 to 35 characters
+    const pricePattern = /^\d*\.?\d+$/;//allows both decimals or normal whole numbers
+    const descriptionPattern = /^.{3,100}$/;//allows all characters from 3 to 100 characters
 
     // This code was inspired by mdn web docs
     // Title: Regular expressions
