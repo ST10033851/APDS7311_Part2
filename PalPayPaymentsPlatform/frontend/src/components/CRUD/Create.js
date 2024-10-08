@@ -9,6 +9,7 @@ function Create() {
   const [transactionStatus, setTransactionStatus] = useState("");
   const [description, setDescription] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentCode, setPaymentCode] = useState("");
   const navigate = useNavigate();
   const statusOptions = ["Pending", "Completed", "Failed"];
   const currencyOptions = ["ZAR", "EUR", "GBP", "USD"];
@@ -23,6 +24,8 @@ function Create() {
     const titlePattern = /^.{3,35}$/;//allows all characters from 3 to 35 characters
     const pricePattern = /^\d*\.?\d+$/;//allows both decimals or normal whole numbers
     const descriptionPattern = /^.{3,100}$/;//allows all characters from 3 to 100 characters
+    const paymentCodePattern = /^\d{8,13}$/;//nly takes numbers and up until 13 
+;
 
     // This code was inspired by mdn web docs
     // Title: Regular expressions
@@ -43,6 +46,9 @@ function Create() {
       if (!descriptionPattern.test(description)) {
         return setError("Please enter a name with less then 100 characters.");
       }
+      if (!paymentCodePattern.test(paymentCode)) {
+        return setError("Please enter a valid bank code.");
+      }
 
       const response = await axios.post(
         "/api/create",
@@ -53,6 +59,7 @@ function Create() {
           recipient,
           transactionStatus,
           paymentMethod,
+          paymentCode,
           description,
           createdAt,
           updatedAt,
@@ -79,7 +86,7 @@ function Create() {
   };
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex flex-col justify-start items-center">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[80vh] flex flex-col justify-start items-center">
         <h1 className="text-3xl font-semibold mt-4 mb-4 text-center">
           Add Transaction
         </h1>
@@ -144,6 +151,18 @@ function Create() {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="relative z-0 w-full mb-5 group">
+            <input
+              type="number"
+              id="paymentCode"
+              name="paymentCode"
+              placeholder="Payment Code"
+              value={paymentCode}
+              onChange={(e) => setPaymentCode(e.target.value)}
+              autoComplete="true"
+              className="border rounded-md p-2 w-full"
+            />
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <input

@@ -34,6 +34,11 @@ const paymentSchema = new mongoose.Schema({
         enum: ['SWIFT', 'Visa', 'Mastercard', 'Amazon Pay'],
         default: 'Pending'
     },
+    paymentCode: { // The payment code
+        type: Number,
+        required: true,
+        min: 0
+    },
     description: { // Details about the transaction
         type: String,
         maxLength: 20000,

@@ -23,7 +23,7 @@ function Read() {
         });
         setTransactions(response.data);
       } catch (err) {
-        setError("You are not authorised to view transactions");
+        setError("Please, enter a transaction.");
       }
     };
     fetchTransactions();
@@ -130,6 +130,9 @@ function Read() {
                 Payment Method
               </th>
               <th scope="col" className="px-6 py-3">
+                Payment Code
+              </th>
+              <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Edit</span>
               </th>
               <th scope="col" className="px-6 py-3">
@@ -149,7 +152,7 @@ function Read() {
                 <td className="px-6 py-4">{item.description}</td>
                 <td className="px-6 py-4">{item.transactionStatus}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
-                
+                <td className="px-6 py-4">{item.paymentCode}</td>
                 <td className="px-6 py-4 text-right">
                   <button
                     onClick={() => setTransactionToEdit(item)}
