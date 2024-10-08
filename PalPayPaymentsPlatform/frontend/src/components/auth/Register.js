@@ -86,7 +86,7 @@ function Register() {
         <div className="bg-primary bg-cover h-screen flex justify-center items-center">
           <div className='absolute z-[0] w-[20%] h-[35%] top-0 pink__gradient'/>
           <div className='absolute z-[0] w-[20%] h-[50%] right-20 bottom-20 blue__gradient rounded'/>
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[60vh] flex">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[80vh] mt-[-15vh] flex">
             <div className="w-1/2 p-8 flex flex-col justify-center">
               <h1 className="text-3xl font-semibold mb-8 text-center">Register</h1>
               <form onSubmit={handleSubmit} className="space-y-6">
