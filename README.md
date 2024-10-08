@@ -69,4 +69,18 @@ The frontend of the Customer International Payments Portal provides an intuitive
 - **Authentication Redirect**: If a user attempts to manually change the URL to access the transaction pages without being logged in, they are automatically redirected to the login page.
 - **Hidden Navigation Links**: The "View Transactions" and "Create Transactions" navigation links are only visible after the user successfully logs in.
 
+##Steps to run Web App
+Backend:
+1. Clone the repository
+2. Open a terminal and say cd PalPayPaymentsPlatform
+3. Followed by cd backend
+4. Then npm install
+5. Wait for all the packages to be downloaded then run npm run start and it will connect to the database
+
+Frontend:
+1. Open a terminal and say cd PalPayPaymentsPlatform
+2. Followed by cd frontend
+3. Then npm install
+4. Wait for all the packages to be downloaded then run npm run start and it will begin to compile and run
+
 Thank you for using our app! 😊
