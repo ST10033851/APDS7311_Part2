@@ -1,9 +1,5 @@
-// This code was inspired by a YouTube video
-// Title: Build a Modal Component purely in ReactJS and TailwindCSS
-// Uploaded by: Your Code Lab
-// Available at: https://www.youtube.com/watch?v=dEGbXY-8YtU
 import React, { useEffect, useState, useRef } from "react";
-import { FaMoneyBillWave, FaDollarSign, FaCreditCard, FaFileAlt, FaFlag } from "react-icons/fa";
+import { FaMoneyBillWave, FaDollarSign, FaCreditCard, FaFileAlt, FaFlag, FaHashtag } from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
 
 const currencyOptions = ["ZAR", "USD", "EUR", "GBP"]; 
@@ -18,6 +14,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
     description: "",
     transactionStatus: "",
     paymentMethod: "",
+    paymentCode: "", // New field for payment code
   });
 
   const modalRef = useRef(null); 
@@ -31,6 +28,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
         description: transaction.description,
         transactionStatus: transaction.transactionStatus,
         paymentMethod: transaction.paymentMethod || "", 
+        paymentCode: transaction.paymentCode || "", // Initialize payment code
       });
     }
   }, [transaction]);
@@ -186,6 +184,24 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Payment Code row - New field */}
+          <div className="flex items-center space-x-2">
+            <label htmlFor="paymentCode">
+              <FaHashtag className="h-5 w-5" /> {/* You can use a different icon if preferred */}
+            </label>
+            <input
+              type="text"
+              id="paymentCode"
+              name="paymentCode"
+              placeholder="Payment Code"
+              value={formData.paymentCode}
+              onChange={handleChange}
+              autoComplete="true"
+              className="border rounded-md p-2 w-full"
+              required
+            />
           </div>
 
           {/* Update button */}
