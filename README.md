@@ -4,7 +4,7 @@
 ST10033851 – Jereshan Sinan
 ST10079389 - Kaushil Dajee
 ST10030291 - Avish Judnarain
-ST10091324- Eben Mwema
+ST10091324 - Eben Mwema
 ## Introduction
 Welcome to the Customer International Payments Portal project! This portal is designed to provide a secure and efficient interface for customers to manage their international payments. The application includes a robust API to handle various payment functionalities while ensuring the utmost security and compliance with best practices. The system implements password security, input validation, and SSL to protect against common web vulnerabilities.
 
