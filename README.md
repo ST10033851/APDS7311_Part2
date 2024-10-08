@@ -7,6 +7,9 @@
 #### ST10030291 - Avish Judnarain  
 #### ST10091324- Eben Mwema  
 
+YouTube Video:
+https://youtu.be/OcQmGu4KCHc?feature=shared 
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Features](#features)
@@ -69,7 +72,7 @@ The frontend of the Customer International Payments Portal provides an intuitive
 - **Authentication Redirect**: If a user attempts to manually change the URL to access the transaction pages without being logged in, they are automatically redirected to the login page.
 - **Hidden Navigation Links**: The "View Transactions" and "Create Transactions" navigation links are only visible after the user successfully logs in.
 
-##Steps to run Web App
+Steps to run Web App
 Backend:
 1. Clone the repository
 2. Open a terminal and say cd PalPayPaymentsPlatform
