@@ -14,7 +14,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
     description: "",
     transactionStatus: "",
     paymentMethod: "",
-    paymentCode: "", // New field for payment code
+    paymentCode: "",
   });
 
   const modalRef = useRef(null); 
@@ -28,7 +28,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
         description: transaction.description,
         transactionStatus: transaction.transactionStatus,
         paymentMethod: transaction.paymentMethod || "", 
-        paymentCode: transaction.paymentCode || "", // Initialize payment code
+        paymentCode: transaction.paymentCode || "",
       });
     }
   }, [transaction]);
@@ -186,10 +186,10 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
             </select>
           </div>
 
-          {/* Payment Code row - New field */}
+          {/* Payment Code row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="paymentCode">
-              <FaHashtag className="h-5 w-5" /> {/* You can use a different icon if preferred */}
+              <FaHashtag className="h-5 w-5" />
             </label>
             <input
               type="text"
