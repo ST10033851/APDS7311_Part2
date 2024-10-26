@@ -31,8 +31,8 @@ app.use(cors({
 
 // SSL Certificate and Key
 const options = {
-    key: fs.readFileSync('keys/private.key'),
-    cert: fs.readFileSync('keys/certificate.crt'),
+    key: fs.readFileSync('keys/privatekey.pem'),
+    cert: fs.readFileSync('keys/certificate.pem'),
 }
 
 https.createServer(options, app).listen(PORT, () => {
