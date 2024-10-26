@@ -32,9 +32,6 @@ function Navbar() {
             <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
               <Link to="/login" className='hover:text-blue-400 transition-all duration-300'>Login</Link>
             </li>
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-              <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register</Link>
-            </li>
           </>
         ) : (
           <>
@@ -47,6 +44,9 @@ function Navbar() {
             </li>
             <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`} onClick={logoutClick}>
               <span className='hover:text-blue-400 transition-all duration-300 cursor-pointer'>Logout</span>
+            </li>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register employee</Link>
             </li>
           </>
         )}
