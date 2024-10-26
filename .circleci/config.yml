@@ -34,7 +34,8 @@ jobs:
           name: Start backend
           command: |
             cd PalPayPaymentsPlatform/backend
-            npm run dev
+            npm run dev &
+            sleep 10
 
   frontend:
     docker:
@@ -64,7 +65,8 @@ jobs:
           name: Build frontend
           command: |
             cd PalPayPaymentsPlatform/frontend
-            npm run start
+            npm run start &
+            sleep 10
 
 workflows:
   version: 2
