@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaMoneyBillWave, FaDollarSign, FaCreditCard, FaFileAlt, FaFlag, FaHashtag } from "react-icons/fa";
 import { MdTextFields } from "react-icons/md";
+import PropTypes from "prop-types";
 
 const currencyOptions = ["ZAR", "USD", "EUR", "GBP"]; 
 const statusOptions = ["Pending", "Completed", "Failed"]; 
@@ -66,7 +67,6 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
       <div className="bg-white rounded-lg shadow-lg p-5" ref={modalRef}>
         <h2 className="text-xl font-bold mb-4">Edit Transaction</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-
           {/* Transaction title row */}
           <div className="flex items-center space-x-2">
             <label htmlFor="transactionTitle">
@@ -226,6 +226,21 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
       </div>
     </div>
   );
+};
+
+EditTransactionModal.propTypes = {
+  transaction: PropTypes.shape({
+    transactionTitle: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+    currency: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    transactionStatus: PropTypes.string.isRequired,
+    paymentMethod: PropTypes.string,
+    paymentCode: PropTypes.string,
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditTransactionModal;

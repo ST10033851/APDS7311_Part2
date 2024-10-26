@@ -7,9 +7,9 @@ function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [IDNumber, setIDNumber] = useState('');
-    const [accountNumber, setaccountNumber] = useState('');
-    const [fullName, setfullName] = useState('');
+    const [IDNumber, setIdNumber] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ function Register() {
     //This function will check if the id number entered is 13 digits long
     const handleIDNumberChange = (e) => {
       const value = e.target.value;
-      setIDNumber(value);
+      setIdNumber(value);
   
       const idRegex = /^\d{13}$/;
       if (!idRegex.test(value)) {
@@ -58,7 +58,7 @@ function Register() {
     //This function will check if the account number will be between 10 to 12 digits long
     const handleAccountNumberChange = (e) => {
       const value = e.target.value;
-      setaccountNumber(value);
+      setAccountNumber(value);
   
       const accountRegex = /^\d{10,12}$/;
       if (!accountRegex.test(value)) {
@@ -73,7 +73,7 @@ function Register() {
       setPassword(newPassword);
   
       //This will check if the password has 8 characters and atleast 1 number
-      const passwordRegex = /^(?=.*[0-9])(?=.{8,})/;
+      const passwordRegex = /^(?=.*\d)(?=.{8,})/;
   
       if (!passwordRegex.test(newPassword)) {
           setError('Password must be at least 8 characters long and contain at least one number.');
@@ -100,7 +100,7 @@ function Register() {
                     name="fullName"
                     placeholder="Full name"
                     value={fullName}
-                    onChange={(e) => setfullName(e.target.value)}
+                    onChange={(e) => setFullName(e.target.value)}
                     autoComplete="true"
                     className="border rounded-md p-2 w-full"
                   />

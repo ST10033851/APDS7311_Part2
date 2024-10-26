@@ -6,7 +6,7 @@ const loginAttemptSchema = new mongoose.Schema({
         required: true,
         immutable: true,
         trim: true,
-        match: [/^[a-zA-Z0-9_]{5,15}$/, 'Please fill in a valid username (5-15 alphanumeric characters)'] // Alphanumeric and underscores, 5-15 chars
+        match: [/^\w{5,15}$/, 'Please fill in a valid username (5-15 alphanumeric characters)'] // Alphanumeric and underscores, 5-15 chars
     },
     ipAddress: {
         type: String,

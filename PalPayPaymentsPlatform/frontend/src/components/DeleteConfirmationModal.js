@@ -3,6 +3,7 @@
 // Uploaded by: Your Code Lab
 // Available at: https://www.youtube.com/watch?v=dEGbXY-8YtU
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DeleteConfirmationModal = ({ transaction, onDelete, onCancel }) => {
   return (
@@ -29,4 +30,13 @@ const DeleteConfirmationModal = ({ transaction, onDelete, onCancel }) => {
   );
 };
 
+DeleteConfirmationModal.propTypes = {
+  transaction: PropTypes.shape({
+    transactionTitle: PropTypes.string.isRequired,
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired, 
+};
+
 export default DeleteConfirmationModal;
+

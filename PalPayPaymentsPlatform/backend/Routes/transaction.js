@@ -1,7 +1,6 @@
 import express from "express";
 import Payment from "../models/Transaction.js"; // Keep it as Payment if that's what you're calling it
 import authMiddleware from "../middleware/authMiddleware.js";
-import mongoose from "mongoose";
 
 const router = express.Router();
 

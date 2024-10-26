@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import {color2} from '../frontend/src/assets'
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   mode: "jit",
