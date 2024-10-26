@@ -15,6 +15,11 @@ function Login() {
         e.preventDefault();
         setError('');
 
+        if (!username || !username || !password ) {
+          setError("Please fill in all the required fields.");
+          return;
+      }
+
         try{
             const response = await axios.post('/api/auth/login', {username, password})
             localStorage.setItem('token', response.data.token);
