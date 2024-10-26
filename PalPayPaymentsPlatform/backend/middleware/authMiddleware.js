@@ -26,19 +26,19 @@ const authMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log('Decoded:', decoded)
+        console.log('Decoded:', decoded);
         req.user = decoded;
         next();
     } catch (err) {
         console.error('Token verification failed:', err);
-        if(err.name === 'JsonWebTokenError'){
-            return res.status(401).json({message:'Invalid token, Access Denied'});
+        if (err.name === 'JsonWebTokenError') {
+            return res.status(401).json({ message: 'Invalid token, Access Denied' });
+        } else if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token has expired, Access Denied' }); 
         }
-        else if (err.name === 'TokenExpiredError', err){
-            return res.status(401).json({messsage:'Token has expired, Access Denied'});
-        }
-        res.status(500).json({message: 'Server error during authentication', error:err})
+        res.status(500).json({ message: 'Server error during authentication', error: err });
     }
+    
 };
 
 export default authMiddleware;

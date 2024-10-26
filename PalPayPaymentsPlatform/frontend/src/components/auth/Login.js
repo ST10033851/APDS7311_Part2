@@ -15,7 +15,7 @@ function Login() {
         e.preventDefault();
         setError('');
 
-        if (!username || !username || !password ) {
+        if (!username || !password ) {
           setError("Please fill in all the required fields.");
           return;
       }

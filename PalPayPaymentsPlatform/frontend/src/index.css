@@ -31,7 +31,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 .bg-blue-gradient {
@@ -148,7 +147,7 @@
 box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.styled-table thread tr{
+.styled-table thead tr{
   background-color: #327f87;
   color:white;
   text-align: left;

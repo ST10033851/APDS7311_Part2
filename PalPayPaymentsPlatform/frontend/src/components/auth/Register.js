@@ -7,7 +7,7 @@ function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [IDNumber, setIdNumber] = useState('');
+    const [IdNumber, setIdNumber] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
@@ -20,13 +20,13 @@ function Register() {
       setError('');
   
       //This will just check if all the fields have been filled
-      if (!username || !email || !password || !fullName || !IDNumber || !accountNumber) {
+      if (!username || !email || !password || !fullName || !IdNumber || !accountNumber) {
           setError("Please fill in all the required fields.");
           return;
       }
   
       try {
-          const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber, accountNumber});
+          const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber});
   
           if (response.status === 201) {
               localStorage.setItem('token', response.data.token);
@@ -144,7 +144,7 @@ function Register() {
                     id="IDNumber"
                     name="IDNumber"
                     placeholder="ID number"
-                    value={IDNumber}
+                    value={IdNumber}
                     onChange={handleIDNumberChange}
                     autoComplete="true"
                     className="border rounded-md p-2 w-full"
