@@ -11,7 +11,7 @@ function View() {
         const token = localStorage.getItem("token");
         const recipient = localStorage.getItem("recipient");
 
-        const response = await axios.get('/api/view', {
+        const response = await axios.get("/api/view", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -29,12 +29,8 @@ function View() {
   // Uploaded by: Flowbite
   // Available at: https://flowbite.com/docs/components/tables/
   return (
-    <div className="bg-primary bg-cover h-screen flex justify-center items-center">
-      <div
-        className="relative overflow-x-auto shadow-md sm:rounded-lg"
-        style={{ marginTop: "0px", maxWidth: "80%", margin: "0 auto" }}
-      >
-        <h1
+    <div className="bg-primary bg-cover h-screen flex flex-col justify-center items-center">
+      <h1
           style={{
             color: "white",
             fontSize: "50px",
@@ -45,6 +41,10 @@ function View() {
         >
           View All Transactions
         </h1>
+      <div
+        className="relative overflow-x-auto shadow-md sm:rounded-lg"
+        style={{ maxWidth: "80%", margin: "0 auto", maxHeight: "60vh", overflowY: "auto",}}
+      >
         {error && <p className="text-red-500">{error}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
