@@ -91,7 +91,7 @@ function View() {
       
       // Set success message
       setSuccessMessage("Transaction submitted to SWIFT successfully!");
-      
+
       // Clear the message after a short duration
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
@@ -181,9 +181,17 @@ function View() {
                 <td className="px-6 py-4 text-right">
                     <button 
                       onClick={() => submitToSWIFT(item._id)} 
-                      className={`border-2 border-green-500 bg-green-500 text-white hover:bg-green-600 hover:border-green-600 rounded py-2 px-4 transition duration-300 ease-in-out`}
+                      style={{
+                        border: '2px solid green',
+                        backgroundColor: item.isVerified === "Verified" ? 'gray' : 'green',
+                        color: 'white',
+                        cursor: item.isVerified === "Verified" ? 'not-allowed' : 'pointer',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '0.25rem',
+                        borderColor: item.isVerified === "Verified" ? 'gray' : 'green', // Match border color with background when disabled
+                      }}
                       // Disable if already verified/Submitted to SWIFT
-                      disabled={item.isVerified === "Verified"} 
+                      disabled={item.isVerified === "Verified"}
                       aria-label="Submit to SWIFT"
                     >
                       Submit to SWIFT
