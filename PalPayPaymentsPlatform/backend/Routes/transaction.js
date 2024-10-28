@@ -4,6 +4,23 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// Route to view all transactions 
+router.get("/view", authMiddleware, async (req, res) => {
+  try {
+    const transactions = await Payment.find();
+
+    if (transactions.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No transactions found" });
+    }
+
+    res.status(200).json(transactions);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // Route to create a payment transaction
 router.post("/create", authMiddleware, async (req, res) => {
   const {
@@ -132,22 +149,7 @@ router.get("/:recipient", authMiddleware, async (req, res) => {
   }
 });
 
-// Route to view all transactions 
-router.get("/view", authMiddleware, async (req, res) => {
-  try {
-    const transactions = await Payment.find();
 
-    if (transactions.length === 0) {
-      return res
-        .status(404)
-        .json({ error: "No transactions found for this recipient" });
-    }
-
-    res.status(200).json(transactions);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
 
 //const Transaction = mongoose.model("Transaction", newPayment);
 
