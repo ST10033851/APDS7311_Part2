@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EditTransactionModal from "../EditTransactionModal";
+import DeleteConfirmationModal from "../DeleteConfirmationModal";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 function View() {
   const [transactions, setTransactions] = useState([]);
+  const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [transactionToEdit, setTransactionToEdit] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchAllTransactions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const recipient = localStorage.getItem("recipient");
 
         const response = await axios.get("/api/view", {
           headers: {
@@ -23,6 +28,76 @@ function View() {
     };
     fetchAllTransactions();
   }, []);
+
+  const deleteTransaction = async () => {
+    if (!transactionToDelete) return;
+
+    const id = transactionToDelete._id;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`/api/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTransactions(transactions.filter((item) => item._id !== id));
+      setTransactionToDelete(null);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to delete transaction");
+    }
+  };
+
+  const confirmDelete = (transaction) => {
+    setTransactionToDelete(transaction);
+  };
+
+  const cancelDelete = () => {
+    setTransactionToDelete(null);
+  };
+
+  const handleUpdateTransaction = async (id, updatedData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(`/api/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTransactions(
+        transactions.map((item) => (item._id === id ? response.data : item))
+      );
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to update transaction");
+    }
+  };
+
+  const submitToSWIFT = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      // Make the API call to update the isVerified status
+      await axios.put(`/api/${id}/submit`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      // Update the transactions state with the new isVerified value
+      setTransactions(transactions.map((item) => 
+        item._id === id ? { ...item, isVerified: "Verified" } : item
+      ));
+      
+      // Set success message
+      setSuccessMessage("Transaction submitted to SWIFT successfully!");
+      
+      // Clear the message after a short duration
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to submit transaction to SWIFT");
+    }
+  };  
   
   // This code was inspired by Flowbite
   // Title: Tailwind CSS Table - Flowbite
@@ -46,6 +121,7 @@ function View() {
         style={{ maxWidth: "80%", margin: "0 auto", maxHeight: "60vh", overflowY: "auto",}}
       >
         {error && <p className="text-red-500">{error}</p>}
+        {successMessage && <p className="text-green-500 font-bold">{successMessage}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -73,6 +149,9 @@ function View() {
               <th scope="col" className="px-6 py-3">
                 Verification Status
               </th>
+              <th scope="col" className="px-6 py-3"><span className="sr-only">Edit</span></th>
+              <th scope="col" className="px-6 py-3"><span className="sr-only">Delete</span></th>
+              <th scope="col" className="px-6 py-3"><span className="sr-only">Submit</span></th>
             </tr>
           </thead>
           <tbody>
@@ -88,11 +167,49 @@ function View() {
                 <td className="px-6 py-4">{item.transactionStatus}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4">{item.paymentCode}</td> 
-                <td className="px-6 py-4">{item.isVerified}</td> 
+                <td className="px-6 py-4">{item.isVerified}</td>
+                <td className="px-6 py-4 text-right">
+                  <button onClick={() => setTransactionToEdit(item)} className="text-blue-600 dark:text-blue-500 hover:text-blue-700" aria-label="Edit transaction">
+                    <FaEdit className="h-5 w-5 inline" />
+                  </button>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <button onClick={() => confirmDelete(item)} className="text-red-500 hover:text-red-700" aria-label="Delete transaction">
+                    <FaTrash className="h-5 w-5 inline" />
+                  </button>
+                </td>
+                <td className="px-6 py-4 text-right">
+                    <button 
+                      onClick={() => submitToSWIFT(item._id)} 
+                      className={`border-2 border-green-500 bg-green-500 text-white hover:bg-green-600 hover:border-green-600 rounded py-2 px-4 transition duration-300 ease-in-out`}
+                      // Disable if already verified/Submitted to SWIFT
+                      disabled={item.isVerified === "Verified"} 
+                      aria-label="Submit to SWIFT"
+                    >
+                      Submit to SWIFT
+                    </button>
+                  </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {transactionToDelete && (
+          <DeleteConfirmationModal
+            transaction={transactionToDelete}
+            onDelete={deleteTransaction}
+            onCancel={cancelDelete}
+          />
+        )}
+
+        {transactionToEdit && (
+          <EditTransactionModal
+            transaction={transactionToEdit}
+            onClose={() => setTransactionToEdit(null)}
+            onUpdate={handleUpdateTransaction}
+          />
+        )}
+
       </div>
     </div>
   );

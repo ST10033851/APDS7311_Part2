@@ -115,6 +115,27 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// Route to update the isVerified status of a payment transaction by ID
+router.put("/:id/submit", authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedPayment = await Payment.findByIdAndUpdate(
+      id,
+      { isVerified: "Verified", updatedAt: Date.now() }, // Only update isVerified
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedPayment) {
+      return res.status(404).json({ error: "Payment not found" });
+    }
+
+    res.status(200).json(updatedPayment);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // Route to delete a payment transaction by ID
 router.delete("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
