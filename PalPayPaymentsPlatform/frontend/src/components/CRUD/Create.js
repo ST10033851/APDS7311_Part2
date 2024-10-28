@@ -36,6 +36,7 @@ function Create() {
     try {
       const createdAt = new Date().toISOString();
       const updatedAt = new Date().toISOString();
+      const isVerified = "Pending";
 
       if (!titlePattern.test(transactionTitle)) {
         return setError("Please enter a name with less then 35 characters.");
@@ -49,7 +50,7 @@ function Create() {
       if (!paymentCodePattern.test(paymentCode)) {
         return setError("Please enter a valid bank code.");
       }
-
+      
       const response = await axios.post(
         "/api/create",
         {
@@ -61,6 +62,7 @@ function Create() {
           paymentMethod,
           paymentCode,
           description,
+          isVerified,
           createdAt,
           updatedAt,
         },

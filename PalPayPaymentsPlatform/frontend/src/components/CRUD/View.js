@@ -70,6 +70,9 @@ function View() {
               <th scope="col" className="px-6 py-3">
                 Payment Code
               </th>
+              <th scope="col" className="px-6 py-3">
+                Verification Status
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -85,7 +88,7 @@ function View() {
                 <td className="px-6 py-4">{item.transactionStatus}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4">{item.paymentCode}</td> 
-
+                <td className="px-6 py-4">{item.isVerified}</td> 
               </tr>
             ))}
           </tbody>

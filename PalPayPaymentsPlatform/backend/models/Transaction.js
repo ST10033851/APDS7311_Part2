@@ -44,6 +44,12 @@ const paymentSchema = new mongoose.Schema({
         maxLength: 20000,
         trim: true
     },
+    isVerified: { // Is transaction verified by employees
+        type: String,
+        default: "Pending",
+        maxLength: 20000,
+        trim: true
+    },
     createdAt: { // When the transaction was initiated
         type: Date,
         default: Date.now,

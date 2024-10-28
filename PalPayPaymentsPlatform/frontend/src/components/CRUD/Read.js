@@ -133,6 +133,9 @@ function Read() {
                 Payment Code
               </th>
               <th scope="col" className="px-6 py-3">
+                Verification Status
+              </th>
+              <th scope="col" className="px-6 py-3">
                 <span className="sr-only">Edit</span>
               </th>
               <th scope="col" className="px-6 py-3">
@@ -153,6 +156,7 @@ function Read() {
                 <td className="px-6 py-4">{item.transactionStatus}</td>
                 <td className="px-6 py-4">{item.paymentMethod}</td>
                 <td className="px-6 py-4">{item.paymentCode}</td>
+                <td className="px-6 py-4">{item.isVerified}</td>
                 <td className="px-6 py-4 text-right">
                   <button
                     onClick={() => setTransactionToEdit(item)}

@@ -34,6 +34,7 @@ router.post("/create", authMiddleware, async (req, res) => {
     paymentCode,
     createdAt,
     updatedAt,
+    isVerified = "Pending",
   } = req.body;
 
   // Ensure all required fields are provided
@@ -44,7 +45,7 @@ router.post("/create", authMiddleware, async (req, res) => {
     !transactionStatus ||
     !paymentMethod ||
     !paymentCode ||
-    !description
+    !description 
   ) {
     return res
       .status(400)
@@ -61,6 +62,7 @@ router.post("/create", authMiddleware, async (req, res) => {
       description,
       paymentMethod,
       paymentCode,
+      isVerified,
       createdAt,
       updatedAt,
     });
