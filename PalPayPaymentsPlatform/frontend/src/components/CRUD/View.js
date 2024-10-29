@@ -43,6 +43,13 @@ function View() {
       });
 
       setTransactions(transactions.filter((item) => item._id !== id));
+
+      // Set success message
+      setSuccessMessage("Transaction deleted successfully!");
+
+      // Clear the message after a short duration
+      setTimeout(() => setSuccessMessage(""), 3000);      
+
       setTransactionToDelete(null);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to delete transaction");
@@ -69,6 +76,12 @@ function View() {
       setTransactions(
         transactions.map((item) => (item._id === id ? response.data : item))
       );
+
+      // Set success message
+      setSuccessMessage("Transaction updated successfully!");
+
+      // Clear the message after a short duration
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to update transaction");
     }
@@ -157,7 +170,7 @@ function View() {
           <tbody>
             {transactions.map((item, index) => (
               <tr
-                key={index}
+                key={index.id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
                 <td className="px-6 py-4">{item.transactionTitle}</td>
