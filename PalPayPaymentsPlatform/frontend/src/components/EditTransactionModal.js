@@ -14,6 +14,12 @@ const Notification = ({ message, onClose }) => (
   </div>
 );
 
+Notification.propTypes = {
+  message: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
+
 const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     transactionTitle: "",
