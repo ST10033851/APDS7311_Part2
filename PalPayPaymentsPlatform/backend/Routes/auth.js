@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // Register
 router.post('/register', async (req, res) => {
     try{
-        const { username, email, password, IDNumber, fullName, accountNumber} = req.body;
+        const { username, email, password, IDNumber, fullName, accountNumber, role} = req.body;
 
         // Check if the user already exists
         const existingUser = await User.findOne({ $or: [{username}, {email}]})
@@ -28,14 +28,16 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // create the new user
-        const newUser = new User({username, email, IDNumber, fullName, accountNumber, password: hashedPassword});
+        const newUser = new User({username, email, IDNumber, fullName, accountNumber, password: hashedPassword, role: "Customer"});
         await newUser.save();
 
         return res.status(201).json({message:'User created successfully'})
 
     } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error', error: err.message})
+        console.error("Registration error:", err); 
+        res.status(500).json({ message: 'Internal Server Error', error: err.message || err.toString() });
     }
+    
 })
 
 // Login
@@ -57,7 +59,7 @@ router.post('/login', bruteForce.prevent, LoginAttemptLogger, async (req, res) =
 
         // Create a JWT Token if valid user
         const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ token, message: "Logged in successfully" }); // Add return here
+        return res.json({ token, role: user.role, message: "Logged in successfully" }); // Add return here
 
     } catch (err) {
         return res.status(500).json({ message: 'Internal Server Error', error: err.message });
