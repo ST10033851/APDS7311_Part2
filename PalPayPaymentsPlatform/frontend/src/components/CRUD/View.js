@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import EditTransactionModal from "../EditTransactionModal";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { updateTransaction, deleteTransaction } from '../transactionUtils';
+import TableHeader from '../TableHeader';
+import TableBody from '../TableBody';
 
 function View() {
   const [transactions, setTransactions] = useState([]);
@@ -29,30 +31,16 @@ function View() {
     fetchAllTransactions();
   }, []);
 
-  const deleteTransaction = async () => {
+  const handleDeleteTransaction = async () => {
     if (!transactionToDelete) return;
 
     const id = transactionToDelete._id;
-
+  
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`/api/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setTransactions(transactions.filter((item) => item._id !== id));
-
-      // Set success message
-      setSuccessMessage("Transaction deleted successfully!");
-
-      // Clear the message after a short duration
-      setTimeout(() => setSuccessMessage(""), 3000);      
-
-      setTransactionToDelete(null);
-    } catch (err) {
-      setError(err.response?.data?.error || "Failed to delete transaction");
+      await deleteTransaction(id, setTransactions, setSuccessMessage);
+      setTransactionToDelete(null); // Clear the transaction to delete after deletion
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -66,24 +54,10 @@ function View() {
 
   const handleUpdateTransaction = async (id, updatedData) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(`/api/${id}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setTransactions(
-        transactions.map((item) => (item._id === id ? response.data : item))
-      );
-
-      // Set success message
-      setSuccessMessage("Transaction updated successfully!");
-
-      // Clear the message after a short duration
-      setTimeout(() => setSuccessMessage(""), 3000);
-    } catch (err) {
-      setError(err.response?.data?.error || "Failed to update transaction");
+      await updateTransaction(id, updatedData, setTransactions, setSuccessMessage);
+      // Additional success handling can be done here if needed
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -112,117 +86,43 @@ function View() {
     }
   };  
   
-  // This code was inspired by Flowbite
-  // Title: Tailwind CSS Table - Flowbite
-  // Uploaded by: Flowbite
-  // Available at: https://flowbite.com/docs/components/tables/
   return (
     <div className="bg-primary bg-cover h-screen flex flex-col justify-center items-center">
       <h1
-          style={{
-            color: "white",
-            fontSize: "50px",
-            fontStyle: "bold",
-            textAlign: "center",
-          }}
-          className="text-center text-2xl font-bold my-8"
-        >
-          View All Transactions
-        </h1>
+        style={{
+          color: "white",
+          fontSize: "50px",
+          fontStyle: "bold",
+          textAlign: "center",
+        }}
+        className="text-center text-2xl font-bold my-8"
+      >
+        View All Transactions
+      </h1>
       <div
         className="relative overflow-x-auto shadow-md sm:rounded-lg"
-        style={{ maxWidth: "80%", margin: "0 auto", maxHeight: "60vh", overflowY: "auto",}}
+        style={{ maxWidth: "80%", margin: "0 auto", maxHeight: "60vh", overflowY: "auto" }}
       >
         {error && <p className="text-red-500">{error}</p>}
         {successMessage && <p className="text-green-500 font-bold">{successMessage}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Transaction Title
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Amount
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Currency
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Payment Method
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Payment Code
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Verification Status
-              </th>
-              <th scope="col" className="px-6 py-3"><span className="sr-only">Edit</span></th>
-              <th scope="col" className="px-6 py-3"><span className="sr-only">Delete</span></th>
-              <th scope="col" className="px-6 py-3"><span className="sr-only">Submit</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((item, index) => (
-              <tr
-                key={index.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-6 py-4">{item.transactionTitle}</td>
-                <td className="px-6 py-4">{item.amount}</td>
-                <td className="px-6 py-4">{item.currency}</td>
-                <td className="px-6 py-4">{item.description}</td>
-                <td className="px-6 py-4">{item.transactionStatus}</td>
-                <td className="px-6 py-4">{item.paymentMethod}</td>
-                <td className="px-6 py-4">{item.paymentCode}</td> 
-                <td className="px-6 py-4">{item.isVerified}</td>
-                <td className="px-6 py-4 text-right">
-                  <button onClick={() => setTransactionToEdit(item)} className="text-blue-600 dark:text-blue-500 hover:text-blue-700" aria-label="Edit transaction">
-                    <FaEdit className="h-5 w-5 inline" />
-                  </button>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button onClick={() => confirmDelete(item)} className="text-red-500 hover:text-red-700" aria-label="Delete transaction">
-                    <FaTrash className="h-5 w-5 inline" />
-                  </button>
-                </td>
-                <td className="px-6 py-4 text-right">
-                    <button 
-                      onClick={() => submitToSWIFT(item._id)} 
-                      style={{
-                        border: '2px solid green',
-                        backgroundColor: item.isVerified === "Verified" ? 'gray' : 'green',
-                        color: 'white',
-                        cursor: item.isVerified === "Verified" ? 'not-allowed' : 'pointer',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '0.25rem',
-                        borderColor: item.isVerified === "Verified" ? 'gray' : 'green', // Match border color with background when disabled
-                      }}
-                      // Disable if already verified/Submitted to SWIFT
-                      disabled={item.isVerified === "Verified"}
-                      aria-label="Submit to SWIFT"
-                    >
-                      Submit to SWIFT
-                    </button>
-                  </td>
-              </tr>
-            ))}
-          </tbody>
+          <TableHeader showSubmit={true} />
+          <TableBody 
+            transactions={transactions} 
+            setTransactionToEdit={setTransactionToEdit} 
+            confirmDelete={confirmDelete} 
+            onSubmitToSWIFT={submitToSWIFT} 
+          />
         </table>
-
+  
         {transactionToDelete && (
           <DeleteConfirmationModal
             transaction={transactionToDelete}
-            onDelete={deleteTransaction}
+            onDelete={handleDeleteTransaction}
             onCancel={cancelDelete}
           />
         )}
-
+  
         {transactionToEdit && (
           <EditTransactionModal
             transaction={transactionToEdit}
@@ -230,10 +130,9 @@ function View() {
             onUpdate={handleUpdateTransaction}
           />
         )}
-
       </div>
     </div>
-  );
+  );  
 }
 
 export default View;
