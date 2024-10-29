@@ -22,9 +22,11 @@ function Login() {
 
         try{
             const response = await axios.post('/api/auth/login', {username, password})
+            const userRole = response.data.role; 
+
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('recipient', username);
-            login(username, response.data.token);
+            login(userRole);
             navigate('/');
 
         }catch(err){

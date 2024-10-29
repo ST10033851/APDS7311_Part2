@@ -10,6 +10,7 @@ function Register() {
     const [IdNumber, setIdNumber] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [fullName, setFullName] = useState('');
+    const [role, setRole] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -26,12 +27,13 @@ function Register() {
       }
   
       try {
-          const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber});
-  
-          if (response.status === 201) {
-              localStorage.setItem('token', response.data.token);
-              navigate('/login');
-          }
+        setRole("Customer")
+        const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber, role});
+
+        if (response.status === 201) {
+            localStorage.setItem('token', response.data.token);
+            navigate('/login');
+        }
   
       } catch (err) {
           if (err.response) {

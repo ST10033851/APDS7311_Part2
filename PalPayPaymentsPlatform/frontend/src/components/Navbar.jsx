@@ -4,11 +4,10 @@ import { close, menu, logo } from '../assets';
 import { AuthContext } from '../components/AuthContext';
 
 function Navbar() {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, role, logout } = useContext(AuthContext);
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
 
-  // This will redirect the user to the home page when the logout button is clicked
   const logoutClick = () => {
     logout();
     navigate('/');
@@ -22,26 +21,32 @@ function Navbar() {
           <Link to="/" className='hover:text-blue-400 transition-all duration-300'>Home</Link>
         </li>
 
-        {/* This will show the login/register links if the user is not logged in */}
         {!isAuthenticated ? (
-          <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-            <Link to="/login" className='hover:text-blue-400 transition-all duration-300'>Login</Link>
-          </li>
+          <>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/login" className='hover:text-blue-400 transition-all duration-300'>Login</Link>
+            </li>
+            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+              <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register</Link>
+            </li>
+          </>
         ) : (
           <>
-            {/* This shows the create, read, and logout links if the user is logged in */}
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-              <Link to="/create" className='hover:text-blue-400 transition-all duration-300'>Create Transaction</Link>
-            </li>
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-              <Link to="/read" className='hover:text-blue-400 transition-all duration-300'>View Transactions</Link>
-            </li>
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-              <Link to="/view" className='hover:text-blue-400 transition-all duration-300'>View All Transactions</Link>
-            </li>
-            <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-              <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register employee</Link>
-            </li>
+            {role === 'Customer' && (
+              <>
+                <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+                  <Link to="/create" className='hover:text-blue-400 transition-all duration-300'>Create Transaction</Link>
+                </li>
+                <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+                  <Link to="/read" className='hover:text-blue-400 transition-all duration-300'>View Transactions</Link>
+                </li>
+              </>
+            )}
+            {role === 'Employee' && (
+              <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+                <Link to="/view" className='hover:text-blue-400 transition-all duration-300'>View All Transactions</Link>
+              </li>
+            )}
             <button
               className="font-poppins font-normal cursor-pointer text-[16px] text-white mr-10 hover:text-blue-400 transition-all duration-300"
               onClick={logoutClick}
@@ -57,17 +62,12 @@ function Navbar() {
           </>
         )}
       </ul>
-      
-      {/* This is just a mobile menu for responsiveness */}
+
+      {/* Mobile menu */}
       <div className='sm:hidden flex flex-1 justify-end items-center'>
         <button
           type="button"
           onClick={() => setToggle((prev) => !prev)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              setToggle((prev) => !prev);
-            }
-          }}
           className="cursor-pointer"
           aria-label="Toggle menu"
         >
@@ -90,18 +90,26 @@ function Navbar() {
               </>
             ) : (
               <>
-                <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-4`}>
-                  <Link to="/create">Create</Link>
-                </li>
-                <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
-                  <Link to="/read">Read</Link>
-                </li>
+                {role === 'Customer' && (
+                  <>
+                    <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-4`}>
+                      <Link to="/create">Create</Link>
+                    </li>
+                    <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
+                      <Link to="/read">Read</Link>
+                    </li>
+                  </>
+                )}
+                {role === 'Employee' && (
+                  <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
+                    <Link to="/view">View All Transactions</Link>
+                  </li>
+                )}
               </>
             )}
           </ul>
         </div>
       </div>
-      
     </nav>
   );
 }
