@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import EditTransactionModal from "../EditTransactionModal.js";
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { updateTransaction, deleteTransaction } from '../transactionUtils';
+import TableHeader from '../TableHeader';
+import TableBody from '../TableBody';
 
 function Read() {
   const [transactions, setTransactions] = useState([]);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -33,23 +36,16 @@ function Read() {
   // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
   // Uploaded by: Dear Programmer
   // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
-  const deleteTransaction = async () => {
+  const handleDeleteTransaction = async () => {
     if (!transactionToDelete) return;
 
     const id = transactionToDelete._id;
-
+  
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`/api/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setTransactions(transactions.filter((item) => item._id !== id));
-      setTransactionToDelete(null);
-    } catch (err) {
-      setError(err.response?.data?.error || "Failed to delete transaction");
+      await deleteTransaction(id, setTransactions, setSuccessMessage);
+      setTransactionToDelete(null); // Clear the transaction to delete after deletion
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -71,18 +67,10 @@ function Read() {
   // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
   const handleUpdateTransaction = async (id, updatedData) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(`/api/${id}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setTransactions(
-        transactions.map((item) => (item._id === id ? response.data : item))
-      );
-    } catch (err) {
-      setError(err.response?.data?.error || "Failed to update transaction");
+      await updateTransaction(id, updatedData, setTransactions, setSuccessMessage);
+      // Additional success handling can be done here if needed
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -108,96 +96,24 @@ function Read() {
           View Transactions
         </h1>
         {error && <p className="text-red-500">{error}</p>}
+        {successMessage && <p className="text-green-500 font-bold">{successMessage}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Transaction Title
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Amount
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Currency
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Payment Method
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Payment Code
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Verification Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Edit</span>
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Delete</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((item, index) => (
-              <tr
-                key={item._id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-6 py-4">{item.transactionTitle}</td>
-                <td className="px-6 py-4">{item.amount}</td>
-                <td className="px-6 py-4">{item.currency}</td>
-                <td className="px-6 py-4">{item.description}</td>
-                <td className="px-6 py-4">{item.transactionStatus}</td>
-                <td className="px-6 py-4">{item.paymentMethod}</td>
-                <td className="px-6 py-4">{item.paymentCode}</td>
-                <td className="px-6 py-4">{item.isVerified}</td>
-                <td className="px-6 py-4 text-right">
-                  <button
-                    onClick={() => setTransactionToEdit(item)}
-                    className="text-blue-600 dark:text-blue-500 hover:text-blue-700"
-                    aria-label="Edit transaction"
-                  >
-                    <FaEdit className="h-5 w-5 inline" />
-                  </button>
-                </td>
-                
-                <td className="px-6 py-4 text-right">
-                  <button
-                    onClick={() => confirmDelete(item)}
-                    className="text-red-500 hover:text-red-700"
-                    aria-label="Delete transaction"
-                  >
-                    <FaTrash className="h-5 w-5 inline" />
-                  </button>
-                </td>  
-
-              </tr>
-            ))}
-          </tbody>
+          <TableHeader />
+          <TableBody 
+            transactions={transactions} 
+            setTransactionToEdit={setTransactionToEdit} 
+            confirmDelete={confirmDelete} 
+          />
         </table>
-
-        {
-          /* 
-          This code was inspired by a YouTube video
-          Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
-          Uploaded by: Dear Programmer
-          Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0 
-          */
-        }
+  
         {transactionToDelete && (
           <DeleteConfirmationModal
             transaction={transactionToDelete}
-            onDelete={deleteTransaction}
+            onDelete={handleDeleteTransaction}
             onCancel={cancelDelete}
           />
         )}
-
+  
         {transactionToEdit && (
           <EditTransactionModal
             transaction={transactionToEdit}
@@ -207,7 +123,7 @@ function Read() {
         )}
       </div>
     </div>
-  );
+  );  
 }
 
 export default Read;
