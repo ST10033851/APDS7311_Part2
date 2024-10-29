@@ -7,6 +7,13 @@ const currencyOptions = ["ZAR", "USD", "EUR", "GBP"];
 const statusOptions = ["Pending", "Completed", "Failed"]; 
 const paymentOptions = ['SWIFT', 'Visa', 'Mastercard', 'Amazon Pay']; 
 
+const Notification = ({ message, onClose }) => (
+  <div className="bg-red-500 text-white p-3 rounded-md mb-4 flex justify-between items-center">
+    <div>{message}</div>
+    <button onClick={onClose} className="font-bold ml-1 underline hover:text-yellow-300 transition-colors duration-200">Close</button>
+  </div>
+);
+
 const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     transactionTitle: "",
@@ -18,6 +25,7 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
     paymentCode: "",
   });
 
+  const [notification, setNotification] = useState(null);
   const modalRef = useRef(null); 
 
   useEffect(() => {
@@ -54,10 +62,35 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { transactionTitle, amount, description, paymentCode } = formData;
+
+    // Validation checks
+    if (transactionTitle.length < 3 || transactionTitle.length > 35) {
+      setNotification("Transaction title must be between 3 and 35 characters.");
+      return;
+    }
+  
+    if (!/^\d+(\.\d+)?$/.test(amount)) {
+      setNotification("Amount must be a valid number (integer or decimal).");
+      return;
+    }
+  
+    if (description.length < 3 || description.length > 100) {
+      setNotification("Description must be between 3 and 100 characters.");
+      return;
+    }
+  
+    if (!/^\d{1,13}$/.test(paymentCode)) {
+      setNotification("Payment code must be up to 13 digits.");
+      return;
+    }   
+
     try {
       await onUpdate(transaction._id, formData);
       onClose();
     } catch (error) {
+      setNotification("Failed to update transaction. Please try again.");
       console.error("Failed to update transaction:", error);
     }
   };
@@ -66,6 +99,14 @@ const EditTransactionModal = ({ transaction, onClose, onUpdate }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-5" ref={modalRef}>
         <h2 className="text-xl font-bold mb-4">Edit Transaction</h2>
+
+        {notification && (
+          <Notification
+            message={notification}
+            onClose={() => setNotification(null)}
+          />
+        )}
+        
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Transaction title row */}
           <div className="flex items-center space-x-2">
