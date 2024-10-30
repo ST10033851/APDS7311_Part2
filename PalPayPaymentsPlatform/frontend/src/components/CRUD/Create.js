@@ -87,124 +87,129 @@ function Create() {
     }
   };
   return (
-    <div className="bg-primary bg-cover h-screen flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[80vh] flex flex-col justify-start items-center">
-        <h1 className="text-3xl font-semibold mt-4 mb-4 text-center">
+    <div className="bg-primary bg-cover h-screen flex justify-center items-center relative">
+      <div className='absolute z-[0] w-[20%] h-[35%] top-0 pink__gradient'/>
+      <div className='absolute z-[0] w-[50%] h-[50%] right-20 bottom-20 blue__gradient rounded'/>
+      <div className="flex flex-col items-center justify-start space-y-2">
+        <h1 className="text-3xl font-semibold text-center relative z-[40] mb-4 text-white">
           Add Transaction
-        </h1>
-        {error && <p className="text-red-500">{error}</p>}
-        <form className="max-w-md mx-auto w-full" onSubmit={handleSubmit}>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              id="transactionTitle"
-              name="transactionTitle"
-              placeholder="Transaction Title"
-              value={transactionTitle}
-              onChange={(e) => setTransactionTitle(e.target.value)}
-              autoComplete="true"
-              className="border rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="number"
-              id="amount"
-              name="amount"
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              autoComplete="true"
-              className="border rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <select
-              id="currency"
-              name="currency"
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              className="border rounded-md p-2 w-full"
-            >
-              <option value="" disabled>
-                Select Currency
-              </option>
-              {currencyOptions.map((currencies) => (
-                <option key={currencies} value={currencies}>
-                  {currencies}
+        </h1> 
+
+        <div className="bg-white rounded-lg shadow-lg w-[50vh] flex flex-col justify-start items-center z-[30] px-4 py-5">
+          {error && <p className="text-red-500">{error}</p>}
+          <form className="max-w-md mx-auto w-full" onSubmit={handleSubmit}>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
+                id="transactionTitle"
+                name="transactionTitle"
+                placeholder="Transaction Title"
+                value={transactionTitle}
+                onChange={(e) => setTransactionTitle(e.target.value)}
+                autoComplete="true"
+                className="border rounded-md py-3 px-2 w-full"
+              />
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                autoComplete="true"
+                className="border rounded-md py-3 px-2 w-full"
+              />
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <select
+                id="currency"
+                name="currency"
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="border rounded-md py-3 px-2 w-full"
+              >
+                <option value="" disabled>
+                  Select Currency
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <select
-              id="paymentMethod"
-              name="paymentMethod"
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              className="border rounded-md p-2 w-full"
-            >
-              <option value="" disabled>
-                Select Payment Method
-              </option>
-              {paymentOptions.map((paymentMethod) => (
-                <option key={paymentMethod} value={paymentMethod}>
-                  {paymentMethod}
+                {currencyOptions.map((currencies) => (
+                  <option key={currencies} value={currencies}>
+                    {currencies}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <select
+                id="paymentMethod"
+                name="paymentMethod"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="border rounded-md py-3 px-2 w-full"
+              >
+                <option value="" disabled>
+                  Select Payment Method
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="number"
-              id="paymentCode"
-              name="paymentCode"
-              placeholder="Payment Code"
-              value={paymentCode}
-              onChange={(e) => setPaymentCode(e.target.value)}
-              autoComplete="true"
-              className="border rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              id="description"
-              name="description"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              autoComplete="true"
-              className="border rounded-md p-2 w-full"
-            />
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <select
-              id="transactionStatus"
-              name="transactionStatus"
-              value={transactionStatus}
-              onChange={(e) => setTransactionStatus(e.target.value)}
-              className="border rounded-md p-2 w-full"
-            >
-              <option value="" disabled>
-                Select Transaction Status
-              </option>
-              {statusOptions.map((status) => (
-                <option key={status} value={status}>
-                  {status}
+                {paymentOptions.map((paymentMethod) => (
+                  <option key={paymentMethod} value={paymentMethod}>
+                    {paymentMethod}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="number"
+                id="paymentCode"
+                name="paymentCode"
+                placeholder="Payment Code"
+                value={paymentCode}
+                onChange={(e) => setPaymentCode(e.target.value)}
+                autoComplete="true"
+                className="border rounded-md py-3 px-2 w-full"
+              />
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                autoComplete="true"
+                className="border rounded-md py-3 px-2 w-full"
+              />
+            </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <select
+                id="transactionStatus"
+                name="transactionStatus"
+                value={transactionStatus}
+                onChange={(e) => setTransactionStatus(e.target.value)}
+                className="border rounded-md py-3 px-2 w-full"
+              >
+                <option value="" disabled>
+                  Select Transaction Status
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-40 h-12 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Add
-            </button>
-          </div>
-        </form>
+                {statusOptions.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full h-12 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

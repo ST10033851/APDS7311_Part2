@@ -22,8 +22,8 @@ function App() {
     <AuthProvider>
       <Router>
         <div className='bg-primary w-full overflow-hidden'>
-          <div className={`${styles.paddingX} ${styles.flexCenter} z-[30]`}>
-            <div className='xl:max-w-[1280px] w-full z-[30]'>
+          <div className={`${styles.paddingX} ${styles.flexCenter} fixed top-0 w-full z-[30]`}>
+            <div className="xl:max-w-[1280px] w-full">
               <Navbar />
             </div>
           </div>
