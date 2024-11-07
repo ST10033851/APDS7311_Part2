@@ -1,6 +1,7 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../AuthContext';
 import {color2, account_circle, lock, mail, name_icon, account_number_icon, id_icon } from '../../assets'
 
 function Register() {
@@ -10,9 +11,10 @@ function Register() {
     const [IdNumber, setIdNumber] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
     const [fullName, setFullName] = useState('');
-    const [role, setRole] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    const { role: userRole } = useContext(AuthContext);
 
     //This is used to post the username, email and password to the register end point
     //and redirects the user back to the home page after a successfull registration
@@ -27,7 +29,8 @@ function Register() {
       }
   
       try {
-        setRole("Customer")
+        //The role will be set to Admin if the logged in user is an Admin else it will be set to Customer
+        const role = userRole === "Admin" ? "Admin" : "Customer";
         const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber, role});
 
         if (response.status === 201) {
@@ -84,117 +87,119 @@ function Register() {
       }
   };
     
-    return(
-        <div className="bg-primary bg-cover h-screen flex justify-center items-center">
-          <div className='absolute z-[0] w-[20%] h-[35%] top-0 pink__gradient'/>
-          <div className='absolute z-[0] w-[20%] h-[50%] right-20 bottom-20 blue__gradient rounded'/>
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[80vh] mt-[-15vh] flex">
-            <div className="w-1/2 p-8 flex flex-col justify-center">
-              <h1 className="text-3xl font-semibold mb-8 text-center">Register</h1>
-              <form onSubmit={handleSubmit} className="space-y-6">
+  return(
+      <div className="bg-primary bg-cover h-screen flex justify-center items-center">
+        <div className='absolute z-[0] w-[20%] h-[35%] top-0 pink__gradient'/>
+        <div className='absolute z-[0] w-[20%] h-[50%] right-20 bottom-20 blue__gradient rounded'/>
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl px-4 py-5 flex">
+          <div className="w-1/2 p-8 flex flex-col justify-center">
+            <h1 className="text-3xl font-semibold mb-8 text-center">
+              {userRole === "Admin" ? "Register an Employee" : "Register"}
+            </h1>
+            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex items-center space-x-2">
+                <label htmlFor="fullName">
+                  <img src={name_icon} alt="fullName" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  autoComplete="true"
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
               <div className="flex items-center space-x-2">
-                  <label htmlFor="fullName">
-                    <img src={name_icon} alt="fullName" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    placeholder="Full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    autoComplete="true"
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="username">
-                    <img src={account_circle} alt="account" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    autoComplete="true"
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="email">
-                    <img src={mail} alt="email" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="true"
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="IDNumber">
-                    <img src={id_icon} alt="IDNumber" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="text"
-                    id="IDNumber"
-                    name="IDNumber"
-                    placeholder="ID number"
-                    value={IdNumber}
-                    onChange={handleIDNumberChange}
-                    autoComplete="true"
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="accountNumber">
-                    <img src={account_number_icon} alt="accountNumber" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="text"
-                    id="accountNumber"
-                    name="accountNumber"
-                    placeholder="Account Number"
-                    value={accountNumber}
-                    onChange={handleAccountNumberChange}
-                    autoComplete="true"
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <label htmlFor="password">
-                    <img src={lock} alt="passwordImg" className="w-6 h-6"/>
-                  </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    className="border rounded-md p-2 w-full"
-                  />
-                </div>
-      
-                {error && <p className="text-red-500">{error}</p>}
-      
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-                  Register
-                </button>
-              </form>
-            </div>
-      
-            <div className="w-1/2 bg-cover bg-right rounded-r-lg" style={{ backgroundImage: `url(${color2})` }}>
-            </div>
+                <label htmlFor="username">
+                  <img src={account_circle} alt="account" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="true"
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label htmlFor="email">
+                  <img src={mail} alt="email" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="true"
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label htmlFor="IDNumber">
+                  <img src={id_icon} alt="IDNumber" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="text"
+                  id="IDNumber"
+                  name="IDNumber"
+                  placeholder="ID number"
+                  value={IdNumber}
+                  onChange={handleIDNumberChange}
+                  autoComplete="true"
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label htmlFor="accountNumber">
+                  <img src={account_number_icon} alt="accountNumber" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="text"
+                  id="accountNumber"
+                  name="accountNumber"
+                  placeholder="Account Number"
+                  value={accountNumber}
+                  onChange={handleAccountNumberChange}
+                  autoComplete="true"
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <label htmlFor="password">
+                  <img src={lock} alt="passwordImg" className="w-6 h-6"/>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="border rounded-md p-2 w-full"
+                />
+              </div>
+    
+              {error && <p className="text-red-500">{error}</p>}
+    
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">
+                Register
+              </button>
+            </form>
+          </div>
+    
+          <div className="w-1/2 bg-cover bg-right rounded-lg" style={{ backgroundImage: `url(${color2})` }}>
           </div>
         </div>
-    )
+      </div>
+  )
 }
 
 export default Register;

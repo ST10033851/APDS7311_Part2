@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { close, menu, logo } from '../assets';
 import { AuthContext } from '../components/AuthContext';
 
+//Simple navbar which renders different links depending on the role that is currently logged in 
 function Navbar() {
   const { isAuthenticated, role, logout } = useContext(AuthContext);
   const [toggle, setToggle] = useState(false);
@@ -13,6 +14,9 @@ function Navbar() {
     navigate('/');
   };
 
+  //If the user is an Admin a Register employee link will be available
+  //If the user is an Employee a View All Transactions link will be available
+  //If the user is a Customer the create and view transaction links  will be available
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar z-[30]">
       <img src={logo} alt="name" className='w-[170px] h-[50px]' />
@@ -45,6 +49,11 @@ function Navbar() {
             {role === 'Employee' && (
               <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
                 <Link to="/view" className='hover:text-blue-400 transition-all duration-300'>View All Transactions</Link>
+              </li>
+            )}
+            {role === 'Admin' && (
+              <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
+                <Link to="/register" className='hover:text-blue-400 transition-all duration-300'>Register Employee</Link>
               </li>
             )}
             <button
@@ -103,6 +112,11 @@ function Navbar() {
                 {role === 'Employee' && (
                   <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
                     <Link to="/view">View All Transactions</Link>
+                  </li>
+                )}
+                {role === 'Admin' && (
+                  <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
+                    <Link to="/register">Register Employee</Link>
                   </li>
                 )}
               </>
