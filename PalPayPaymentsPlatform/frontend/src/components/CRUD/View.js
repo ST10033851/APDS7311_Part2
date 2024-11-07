@@ -86,6 +86,10 @@ function View() {
     }
   };  
   
+  // This code was inspired by Flowbite
+  // Title: Tailwind CSS Table - Flowbite
+  // Uploaded by: Flowbite
+  // Available at: https://flowbite.com/docs/components/tables/
   return (
     <div className="bg-primary bg-cover h-screen flex flex-col justify-center items-center">
       <h1
