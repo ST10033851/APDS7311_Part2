@@ -1,4 +1,7 @@
-// TableBody.js
+// This code was inspired by Flowbite
+// Title: Tailwind CSS Table - Flowbite
+// Uploaded by: Flowbite
+// Available at: https://flowbite.com/docs/components/tables/
 import React from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
