@@ -48,7 +48,7 @@ function Navbar() {
             )}
             {role === 'Employee' && (
               <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mr-10`}>
-                <Link to="/view" className='hover:text-blue-400 transition-all duration-300'>View All Transactions</Link>
+                <Link to="/read" className='hover:text-blue-400 transition-all duration-300'>View All Transactions</Link>
               </li>
             )}
             {role === 'Admin' && (
@@ -111,7 +111,7 @@ function Navbar() {
                 )}
                 {role === 'Employee' && (
                   <li className={`font-poppins font-normal cursor-pointer text-[16px] text-white mb-0`}>
-                    <Link to="/view">View All Transactions</Link>
+                    <Link to="/read">View All Transactions</Link>
                   </li>
                 )}
                 {role === 'Admin' && (

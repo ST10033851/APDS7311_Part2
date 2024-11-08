@@ -8,7 +8,6 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Create from './components/CRUD/Create';
 import Read from './components/CRUD/Read';
-import View from './components/CRUD/View';
 import PrivateRoute from './components/PrivateRoute'
 import {AuthProvider} from './components/AuthContext'
 
@@ -59,11 +58,6 @@ function App() {
               </PrivateRoute>
             }/>
 
-            <Route path="/view" element={
-              <PrivateRoute>
-                <View />
-              </PrivateRoute>
-            }/>
           </Routes>
         </div>
       </Router>

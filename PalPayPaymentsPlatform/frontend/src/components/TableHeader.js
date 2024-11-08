@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TableHeader = ({ showSubmit }) => (
-  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <thead className="text-xs text-gray-700 uppercase bg-white dark:bg-white dark:text-black rounded-lg">
     <tr>
       <th scope="col" className="px-6 py-3">
         Transaction Title

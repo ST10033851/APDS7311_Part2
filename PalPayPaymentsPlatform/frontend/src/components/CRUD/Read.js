@@ -1,46 +1,51 @@
-import React, { useEffect, useState } from "react";
+// src/components/Transactions.js
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import EditTransactionModal from "../EditTransactionModal.js";
 import { updateTransaction, deleteTransaction } from '../transactionUtils';
 import TableHeader from '../TableHeader';
 import TableBody from '../TableBody';
+import { AuthContext } from '../AuthContext';
 
-function Read() {
+function Transactions() {
   const [transactions, setTransactions] = useState([]);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [transactionToEdit, setTransactionToEdit] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
-
+  
+  const { isAuthenticated, role } = useContext(AuthContext);
+  
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const recipient = localStorage.getItem("recipient");
-
-        const response = await axios.get(`/api/${recipient}`, {
+        
+        //This will check the correct Endpoint depending on the users role
+        const endpoint = role === "Employee" ? "/api/view" : `/api/${localStorage.getItem("recipient")}`;
+        
+        const response = await axios.get(endpoint, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setTransactions(response.data);
       } catch (err) {
-        setError("Please, enter a transaction.");
+        setError("Failed to fetch transactions. Please try again.");
       }
     };
-    fetchTransactions();
-  }, []);
-
-  // This code was inspired by a YouTube video
-  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
-  // Uploaded by: Dear Programmer
-  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
+    
+    if (isAuthenticated) {
+      fetchTransactions();
+    }
+  }, [isAuthenticated, role]);
+  
   const handleDeleteTransaction = async () => {
     if (!transactionToDelete) return;
-
+    
     const id = transactionToDelete._id;
-  
+    
     try {
       await deleteTransaction(id, setTransactions, setSuccessMessage);
       setTransactionToDelete(null); // Clear the transaction to delete after deletion
@@ -48,41 +53,53 @@ function Read() {
       setError(error.message);
     }
   };
-
-  // This code was inspired by a YouTube video
-  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
-  // Uploaded by: Dear Programmer
-  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
+  
   const confirmDelete = (transaction) => {
     setTransactionToDelete(transaction);
   };
-
+  
   const cancelDelete = () => {
     setTransactionToDelete(null);
   };
-
-  // This code was inspired by a YouTube video
-  // Title: JavaScript CRUD Application With Local Storage - CRUD Operations In JS
-  // Uploaded by: Dear Programmer
-  // Available at: https://www.youtube.com/watch?v=AX9k9bjCBD0
+  
   const handleUpdateTransaction = async (id, updatedData) => {
     try {
       await updateTransaction(id, updatedData, setTransactions, setSuccessMessage);
-      // Additional success handling can be done here if needed
     } catch (error) {
       setError(error.message);
     }
   };
-
-  // This code was inspired by Flowbite
-  // Title: Tailwind CSS Table - Flowbite
-  // Uploaded by: Flowbite
-  // Available at: https://flowbite.com/docs/components/tables/
+  
+  const submitToSWIFT = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      // Make the API call to update the isVerified status
+      await axios.put(`/api/${id}/submit`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      // Update the transactions state with the new isVerified value
+      setTransactions(transactions.map((item) => 
+        item._id === id ? { ...item, isVerified: "Verified" } : item
+      ));
+      
+      // Set success message
+      setSuccessMessage("Transaction submitted to SWIFT successfully!");
+  
+      // Clear the message after a short duration
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (err) {
+      setError(err.response?.data?.error || "Failed to submit transaction to SWIFT");
+    }
+  };
+  
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div
         className="relative overflow-x-auto shadow-md sm:rounded-lg"
-        style={{ marginTop: "0px", maxWidth: "80%", margin: "0 auto" }}
+        style={{ maxWidth: "80%", margin: "0 auto" }}
       >
         <h1
           style={{
@@ -93,16 +110,17 @@ function Read() {
           }}
           className="text-center text-2xl font-bold my-8"
         >
-          View Transactions
+          {role === "Employee" ? "View All Transactions" : "View Transactions"}
         </h1>
         {error && <p className="text-red-500">{error}</p>}
         {successMessage && <p className="text-green-500 font-bold">{successMessage}</p>}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <TableHeader />
+          <TableHeader showSubmit={role === "Employee"} />
           <TableBody 
             transactions={transactions} 
             setTransactionToEdit={setTransactionToEdit} 
             confirmDelete={confirmDelete} 
+            onSubmitToSWIFT={role === "Employee" ? submitToSWIFT : null} 
           />
         </table>
   
@@ -126,4 +144,4 @@ function Read() {
   );  
 }
 
-export default Read;
+export default Transactions;
