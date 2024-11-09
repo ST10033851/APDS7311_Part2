@@ -30,7 +30,7 @@ function Register() {
   
       try {
         //The role will be set to Admin if the logged in user is an Admin else it will be set to Customer
-        const role = userRole === "Admin" ? "Admin" : "Customer";
+        const role = userRole === "Admin" ? "Employee" : "Customer";
         const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber, role});
 
         if (response.status === 201) {
