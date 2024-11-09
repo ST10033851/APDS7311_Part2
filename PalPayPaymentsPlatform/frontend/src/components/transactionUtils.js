@@ -1,4 +1,8 @@
-// transactionUtils.js
+// Blog post
+// Titled: How to Perform CRUD Operations using React, React Hooks, and Axios
+// Posted by: Kumar
+// Posted on: 26 July 2021
+// Available at: https://www.freecodecamp.org/news/how-to-perform-crud-operations-using-react/
 import axios from 'axios';
 
 export const updateTransaction = async (id, updatedData, setTransactions, setSuccessMessage) => {

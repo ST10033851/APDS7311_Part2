@@ -1,4 +1,3 @@
-// src/components/Transactions.js
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import DeleteConfirmationModal from "../DeleteConfirmationModal";
@@ -41,6 +40,11 @@ function Transactions() {
     }
   }, [isAuthenticated, role]);
   
+  // Blog post
+  // Titled: How to Perform CRUD Operations using React, React Hooks, and Axios
+  // Posted by: Patra
+  // Posted on: 24 November 2023
+  // Available at: https://medium.com/@bhairabpatra.iitd/crud-create-read-update-delete-application-in-react-566bf229aaee
   const handleDeleteTransaction = async () => {
     if (!transactionToDelete) return;
     
@@ -62,6 +66,11 @@ function Transactions() {
     setTransactionToDelete(null);
   };
   
+  // Blog post
+  // Titled: How to Perform CRUD Operations using React, React Hooks, and Axios
+  // Posted by: Patra
+  // Posted on: 24 November 2023
+  // Available at: https://medium.com/@bhairabpatra.iitd/crud-create-read-update-delete-application-in-react-566bf229aaee
   const handleUpdateTransaction = async (id, updatedData) => {
     try {
       await updateTransaction(id, updatedData, setTransactions, setSuccessMessage);
@@ -70,6 +79,12 @@ function Transactions() {
     }
   };
   
+
+  // Blog post
+  // Titled: How to Perform CRUD Operations using React, React Hooks, and Axios
+  // Posted by: Patra
+  // Posted on: 24 November 2023
+  // Available at: https://medium.com/@bhairabpatra.iitd/crud-create-read-update-delete-application-in-react-566bf229aaee
   const submitToSWIFT = async (id) => {
     try {
       const token = localStorage.getItem("token");
@@ -95,6 +110,11 @@ function Transactions() {
     }
   };
   
+  // Blog post
+  // Titled: How to Perform CRUD Operations using React, React Hooks, and Axios
+  // Posted by: Patra
+  // Posted on: 24 November 2023
+  // Available at: https://medium.com/@bhairabpatra.iitd/crud-create-read-update-delete-application-in-react-566bf229aaee
   return (
     <div className="bg-primary bg-cover h-screen flex justify-center items-center">
       <div
