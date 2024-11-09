@@ -14,7 +14,7 @@ function Register() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const { role: userRole } = useContext(AuthContext);
+    const { role } = useContext(AuthContext);
 
     //This is used to post the username, email and password to the register end point
     //and redirects the user back to the home page after a successfull registration
@@ -30,8 +30,8 @@ function Register() {
   
       try {
         //The role will be set to Admin if the logged in user is an Admin else it will be set to Customer
-        const role = userRole === "Admin" ? "Employee" : "Customer";
-        const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber, role});
+        const newUserRole = role === "Admin" ? "Employee" : "Customer";
+        const response = await axios.post('/api/auth/register', {username, email, password, fullName, IDNumber: IdNumber, accountNumber, role: newUserRole});
 
         if (response.status === 201) {
             localStorage.setItem('token', response.data.token);
@@ -94,7 +94,7 @@ function Register() {
         <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl px-4 py-5 flex">
           <div className="w-1/2 p-8 flex flex-col justify-center">
             <h1 className="text-3xl font-semibold mb-8 text-center">
-              {userRole === "Admin" ? "Register an Employee" : "Register"}
+              {role === "Admin" ? "Register an Employee" : "Register"}
             </h1>
             <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex items-center space-x-2">

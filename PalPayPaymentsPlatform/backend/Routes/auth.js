@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
         const IDNumber = req.body.IDNumber?.toString().trim();
         const fullName = req.body.fullName?.toString().trim();
         const accountNumber = req.body.accountNumber?.toString().trim();
-        const role = "Customer";
+        const role = req.body.role?.toString().trim();
 
         //This checks if the user already exists by their username or email
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
