@@ -64,7 +64,8 @@ router.post('/register', async (req, res) => {
 // Login
 router.post('/login', bruteForce.prevent, LoginAttemptLogger, async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const username = req.body.username?.toString().trim();
+        const password = req.body.password?.toString();
 
         // Find if the user exists by username
         const user = await User.findOne({ username });

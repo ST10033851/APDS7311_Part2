@@ -3,6 +3,7 @@
 // Uploaded by: Flowbite
 // Available at: https://flowbite.com/docs/components/tables/
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const TableBody = ({ transactions, setTransactionToEdit, confirmDelete, onSubmitToSWIFT }) => (
@@ -54,5 +55,25 @@ const TableBody = ({ transactions, setTransactionToEdit, confirmDelete, onSubmit
     ))}
   </tbody>
 );
+
+// Prop types validation
+TableBody.propTypes = {
+  transactions: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      transactionTitle: PropTypes.string,
+      amount: PropTypes.number,
+      currency: PropTypes.string,
+      description: PropTypes.string,
+      transactionStatus: PropTypes.string,
+      paymentMethod: PropTypes.string,
+      paymentCode: PropTypes.string,
+      isVerified: PropTypes.string
+    })
+  ).isRequired,
+  setTransactionToEdit: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
+  onSubmitToSWIFT: PropTypes.func
+};
 
 export default TableBody;
